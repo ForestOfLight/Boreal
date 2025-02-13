@@ -32,8 +32,6 @@
 class Boreal : public endstone::Plugin {
 public:
 
-    static size_t startAdd;
-
     void onLoad() override
     {
         getLogger().info("Boreal loaded succesfully");
@@ -57,7 +55,7 @@ public:
 
 
         getLogger().info("Boreal enabled!");
-        install_hooks((ssize_t)std::stol(addressRange));
+        install_hooks((ssize_t)std::stol(addressRange, NULL, 16));
         getLogger().info("Hooks Installed!");
     }
 
@@ -78,6 +76,12 @@ public:
             sender.sendMessage("Flyspeed set to: " + args[0] + "x");
            /* sender.asPlayer()->setFlying(false); */
             sender.asPlayer()->setFlySpeed(std::stof(args[0]) * 0.05);
+            return true;
+        }
+
+
+        if (command.getName() == "freeze") {
+            tickFreeze = !tickFreeze;
             return true;
         }
 

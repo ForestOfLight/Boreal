@@ -3,5 +3,9 @@
 #include <cstdio>
 
 int install_hooks(ssize_t startingAddress);
-static ssize_t (*tick_func)(long);
-static ssize_t tick_hook(long);
+static void (*tick_func)();
+static void tick_hook();
+
+static bool tickFreeze = false;
+static int tickCounter = 0;
+static int tickSlowdown = 0;

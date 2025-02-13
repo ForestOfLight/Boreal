@@ -23,37 +23,56 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
         .aliases("fs")
         .permissions("boreal.command.flyspeed");
 
+    command("freeze")
+        .description("Command to freeze the game")
+        .usages("/freeze")
+        .permissions("boreal.command.op");
+
     permission("boreal.command")
         .description("Allow users to use all commands provided by this example plugin")
-        .children("boreal.command.flyspeed", true);
+        .children("boreal.command.flyspeed", true)
+        .children("boreal.command.op", true);
 
     permission("boreal.command.flyspeed")
         .description("Allow users to use the flyspeed command")
         .default_(endstone::PermissionDefault::Operator);
+
+    permission("boreal.command.op")
+        .description("Set the command permission to op only")
+        .default_(endstone::PermissionDefault::Operator);
 }
 
-ssize_t tick_hook(long current_tick)
+void tick_hook()
 {
-    return 1;
+    if (!tickFreeze && tickCounter == 0){
+            tick_func();
+    }
+    
+    tickCounter = (tickCounter + 1) % tickSlowdown;
+
+    return;
 }
 
 int install_hooks(ssize_t startingAddress)
 {
 
+    int rv;
+    std::printf("entered install_hooks\n");
     long current_tick = 0;
     funchook_set_debug_file("funchook-debug");
     funchook_t *funchook = funchook_create();
-    printf("funchook");
-    int rv;
-    ssize_t tick = startingAddress + 130259312; // address of "_ZN5Level4tickEv"
-
-    /* Prepare hooking.
+    printf("Created funchook\n");
+    printf("startingAddress: %ld\n", startingAddress);
+    ssize_t tickAddr = startingAddress + 130259312; // address of "_ZN5Level4tickEv"
+    printf("tick addr: %ld\n", tickAddr);
+    /* Preparekhooking.
      * The return value is used to call the original tick function
      * in tick_hook.
      */
-    tick_func = (ssize_t(*)(long))tick;
+    tick_func = (void(*)())tickAddr;
+    std::printf("Right before funchook_prepare\n");
+    funchook_prepare(funchook, (void **)&tick_func, (void*)&tick_hook);
     printf("funchook prepare");
-    rv = funchook_prepare(funchook, (void **)tick_func(current_tick), (void*)tick_hook(current_tick));
     if (rv != 0) {
     }
 
@@ -65,4 +84,5 @@ int install_hooks(ssize_t startingAddress)
         /* error */
     }
     return rv;
+
 }
