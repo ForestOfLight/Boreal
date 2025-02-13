@@ -57,7 +57,7 @@ public:
 
 
         getLogger().info("Boreal enabled!");
-        install_hooks((ssize_t)std::stoi(addressRange));
+        install_hooks((ssize_t)std::stol(addressRange));
         getLogger().info("Hooks Installed!");
     }
 
