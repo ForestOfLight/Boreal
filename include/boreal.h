@@ -1,4 +1,5 @@
 #include "endstone/server.h"
+#include <cstddef>
 #include <cstdio>
 #include <iostream>
 #include <fstream>
@@ -31,6 +32,8 @@
 class Boreal : public endstone::Plugin {
 public:
 
+    static size_t startAdd;
+
     void onLoad() override
     {
         getLogger().info("Boreal loaded succesfully");
@@ -38,20 +41,23 @@ public:
 
     void onEnable() override
     {
+        std::string addressRange;
         std::ifstream mapsFile("/proc/self/maps");
         if (mapsFile.is_open()) {
             std::string line;
             std::getline(mapsFile, line);
             size_t start = line.find("-");
             size_t end = line.find(" ");
-            std::string addressRange = line.substr(0, start);
-            std::cout << "Starting address: " << addressRange << std::endl;
+            addressRange = line.substr(0, start);
+            getLogger().info(addressRange);
             mapsFile.close();
         } else {
-            std::cout << "Unable to open /proc/self/maps" << std::endl;
+            getLogger().info("unable to open /proc/self/maps");
         }
+
+
         getLogger().info("Boreal enabled!");
-        /* install_hooks(); */
+        install_hooks((ssize_t)std::stoi(addressRange));
         getLogger().info("Hooks Installed!");
     }
 

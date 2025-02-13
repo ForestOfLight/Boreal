@@ -33,7 +33,7 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
         .default_(endstone::PermissionDefault::Operator);
 }
 
-static ssize_t tick_hook()
+ssize_t tick_hook()
 {
     ssize_t rv;
 
@@ -43,11 +43,11 @@ static ssize_t tick_hook()
 
 }
 
-int install_hooks()
+int install_hooks(ssize_t startingAddress)
 {
     funchook_t *funchook = funchook_create();
     int rv;
-    ssize_t tick = 130259312; // address of "_ZN5Level4tickEv"
+    ssize_t tick = startingAddress + 130259312; // address of "_ZN5Level4tickEv"
 
     /* Prepare hooking.
      * The return value is used to call the original tick function
