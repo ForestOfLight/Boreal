@@ -28,6 +28,11 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
         .usages("/freeze")
         .permissions("boreal.command.op");
 
+    command("tickslowdown")
+        .description("Command to freeze the game")
+        .usages("/tickslowdown <n: int>")
+        .permissions("boreal.command.op");
+
     permission("boreal.command")
         .description("Allow users to use all commands provided by this example plugin")
         .children("boreal.command.flyspeed", true)
@@ -44,11 +49,11 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
 
 void tick_hook()
 {
-    if (!tickFreeze && tickCounter == 0){
-            tick_func();
+    if (!Tick::tickFreeze && Tick::tickCounter == 0){
+        tick_func();
     }
-    
-    tickCounter = (tickCounter + 1) % tickSlowdown;
+   
+    Tick::tickCounter = (Tick::tickCounter + 1) % Tick::tickSlowdown;
 
     return;
 }
@@ -58,11 +63,13 @@ int install_hooks(ssize_t startingAddress)
 
     int rv;
     std::printf("entered install_hooks\n");
-    long current_tick = 0;
+
     funchook_set_debug_file("funchook-debug");
     funchook_t *funchook = funchook_create();
+
     printf("Created funchook\n");
     printf("startingAddress: %ld\n", startingAddress);
+
     ssize_t tickAddr = startingAddress + 130259312; // address of "_ZN5Level4tickEv"
     printf("tick addr: %ld\n", tickAddr);
     /* Preparekhooking.

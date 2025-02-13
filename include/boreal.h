@@ -32,6 +32,29 @@
 class Boreal : public endstone::Plugin {
 public:
 
+ #if defined(__GNUC__) 
+    size_t getAddr(){
+        std::string addressRange;
+        std::ifstream mapsFile("/proc/self/maps");
+
+        if (mapsFile.is_open()) {
+            std::string line;
+            std::getline(mapsFile, line);
+
+            size_t start = line.find("-");
+            size_t end = line.find(" ");
+
+            addressRange = line.substr(0, start);
+
+            getLogger().info(addressRange);
+            mapsFile.close();
+        } else {
+            getLogger().info("unable to open /proc/self/maps");
+        }
+        return (ssize_t)std::stol(addressRange, NULL, 16);
+    }
+ #endif 
+
     void onLoad() override
     {
         getLogger().info("Boreal loaded succesfully");
@@ -39,23 +62,10 @@ public:
 
     void onEnable() override
     {
-        std::string addressRange;
-        std::ifstream mapsFile("/proc/self/maps");
-        if (mapsFile.is_open()) {
-            std::string line;
-            std::getline(mapsFile, line);
-            size_t start = line.find("-");
-            size_t end = line.find(" ");
-            addressRange = line.substr(0, start);
-            getLogger().info(addressRange);
-            mapsFile.close();
-        } else {
-            getLogger().info("unable to open /proc/self/maps");
-        }
-
+        size_t startAddr = getAddr();
 
         getLogger().info("Boreal enabled!");
-        install_hooks((ssize_t)std::stol(addressRange, NULL, 16));
+        install_hooks(startAddr);
         getLogger().info("Hooks Installed!");
     }
 
@@ -81,7 +91,12 @@ public:
 
 
         if (command.getName() == "freeze") {
-            tickFreeze = !tickFreeze;
+            Tick::tickFreeze = !Tick::tickFreeze;
+            return true;
+        }
+
+        if (command.getName() == "tickslowdown") {
+            Tick::tickFreeze = std::stoi(args[0]);
             return true;
         }
 

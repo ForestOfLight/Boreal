@@ -1,7 +1,12 @@
 # Boreal
 An endstone plugin for technical minecraft servers
 
-heavily integrated with [Canopy][https://github.com/ForestOfLight/Canopy]
+heavily integrated with [Canopy](https://github.com/ForestOfLight/Canopy)
+
+## Deps:
+
+https://github.com/kubo/funchook
+https://github.com/gdabah/distorm/
 
 ## Roadmap
 
