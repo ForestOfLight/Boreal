@@ -13,4 +13,5 @@ CMakeUserPresets.json
 .idea
 build
 .cache
+cmake-build-release
 .vscode/settings.json
