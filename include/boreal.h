@@ -65,8 +65,10 @@ public:
         size_t startAddr = getAddr();
 
         getLogger().info("Boreal enabled!");
-        install_hooks(startAddr);
+        int rv = install_hooks(startAddr);
+        if (rv == 0){
         getLogger().info("Hooks Installed!");
+        }
     }
 
     void onDisable() override
@@ -90,14 +92,22 @@ public:
         }
 
 
-        if (command.getName() == "freeze") {
-            Tick::tickFreeze = !Tick::tickFreeze;
-            return true;
-        }
+        if (command.getName() == "tick"){
 
-        if (command.getName() == "tickslowdown") {
-            Tick::tickFreeze = std::stoi(args[0]);
-            return true;
+            if (args[0] == "freeze") {
+                Tick::tickFreeze = !Tick::tickFreeze;
+                return true;
+            }
+
+            if (args[0] == "slow") {
+                Tick::tickSlowdown = std::stoi(args[1]);
+                return true;
+            }
+
+            if (args[0] == "speed") {
+                Tick::tickAccel = std::stoi(args[1]);
+                return true;
+            }
         }
 
         sender.sendErrorMessage("Unknown command: /{}", command.getName());

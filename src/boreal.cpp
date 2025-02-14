@@ -23,14 +23,11 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
         .aliases("fs")
         .permissions("boreal.command.flyspeed");
 
-    command("freeze")
-        .description("Command to freeze the game")
-        .usages("/freeze")
-        .permissions("boreal.command.op");
-
-    command("tickslowdown")
-        .description("Command to freeze the game")
-        .usages("/tickslowdown <n: int>")
+    command("tick")
+        .description("Command to change the tick speed of the game")
+        .usages("/tick (speed)<a: bool> <n: int>")
+        .usages("/tick (slow)<a: bool> <n: int>")
+        .usages("/tick (freeze) <b: bool>")
         .permissions("boreal.command.op");
 
     permission("boreal.command")
@@ -50,7 +47,9 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
 void tick_hook()
 {
     if (!Tick::tickFreeze && Tick::tickCounter == 0){
-        tick_func();
+        for(int i = 0; i < Tick::tickAccel; i++){
+            original_tick_func();
+        }
     }
    
     Tick::tickCounter = (Tick::tickCounter + 1) % Tick::tickSlowdown;
@@ -76,9 +75,10 @@ int install_hooks(ssize_t startingAddress)
      * The return value is used to call the original tick function
      * in tick_hook.
      */
-    tick_func = (void(*)())tickAddr;
+    original_tick_func = (void(*)())tickAddr;
+
     std::printf("Right before funchook_prepare\n");
-    funchook_prepare(funchook, (void **)&tick_func, (void*)&tick_hook);
+    funchook_prepare(funchook, (void **)&original_tick_func, (void*)&tick_hook);
     printf("funchook prepare");
     if (rv != 0) {
     }
