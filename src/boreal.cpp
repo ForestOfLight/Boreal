@@ -25,9 +25,12 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
 
     command("tick")
         .description("Command to change the tick speed of the game")
-        .usages("/tick (speed)<a: bool> <n: int>")
+        .usages("/tick (sprint)<a: bool> <n: int>")
         .usages("/tick (slow)<a: bool> <n: int>")
         .usages("/tick (freeze) <b: bool>")
+        .usages("/tick (unfreeze) <b: bool>")
+        .usages("/tick (step) <b: bool> [n: int]")
+        .usages("/tick (step) <b: bool> (stop) <b: bool>")
         .permissions("boreal.command.op");
 
     permission("boreal.command")
@@ -50,6 +53,9 @@ void tick_hook()
         for(int i = 0; i < Tick::tickAccel; i++){
             original_tick_func();
         }
+    } else if (Tick::tickFreeze && Tick::stepCounter != 0){
+        original_tick_func();
+        Tick::stepCounter--;
     }
    
     Tick::tickCounter = (Tick::tickCounter + 1) % Tick::tickSlowdown;

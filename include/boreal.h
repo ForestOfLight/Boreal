@@ -95,17 +95,36 @@ public:
         if (command.getName() == "tick"){
 
             if (args[0] == "freeze") {
-                Tick::tickFreeze = !Tick::tickFreeze;
+                Tick::tickFreeze = true;
                 return true;
             }
+
+            if (args[0] == "unfreeze") {
+                Tick::tickFreeze = false;
+                return true;
+            }
+
+            if (args[0] == "step") {
+                if (args[1] == "stop"){
+                    Tick::stepCounter = 0;
+                } else {
+                    Tick::stepCounter = std::stoi(args[1]);
+                    if (Tick::stepCounter == 0) {
+                        Tick::stepCounter = 1;
+                    }
+                }
+                return true;
+            }
+            
 
             if (args[0] == "slow") {
                 Tick::tickSlowdown = std::stoi(args[1]);
                 return true;
             }
 
-            if (args[0] == "speed") {
-                Tick::tickAccel = std::stoi(args[1]);
+            if (args[0] == "sprint") {
+                /* Tick::tickAccel = std::stoi(args[1]); */
+                sender.sendMessage("TODO: Implement tick warp");
                 return true;
             }
         }

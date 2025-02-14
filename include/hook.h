@@ -11,4 +11,5 @@ namespace Tick {
     static int tickCounter = 0;
     static int tickSlowdown = 1;
     static int tickAccel = 1;
+    static int stepCounter = 0;
 }
