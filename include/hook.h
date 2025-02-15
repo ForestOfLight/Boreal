@@ -26,6 +26,40 @@
         }
         return (ssize_t)std::stol(addressRange, NULL, 16);
     }
+#elif defined(WIN32)
+    size_t getAddr(){
+        // Get the current process ID
+        DWORD currentProcessId = GetCurrentProcessId();
+
+        // Get a handle to the current process
+        HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, currentProcessId);
+
+        // Get the base address of the DLL
+        HMODULE hModule = NULL;
+        GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCTSTR)GetModuleHandle(NULL), &hModule);
+
+        // Get the executable path
+        TCHAR szPath[MAX_PATH];
+        GetModuleFileName(hModule, szPath, MAX_PATH);
+
+        // Get the process image file name
+        TCHAR szProcessPath[MAX_PATH];
+        GetProcessImageFileName(hProcess, szProcessPath, MAX_PATH);
+
+        // Get the module information
+        MODULEINFO mi;
+        GetModuleInformation(hProcess, hModule, &mi, sizeof(mi));
+
+        // Print the starting address of the process
+        std::cout << "Starting address of process: " << mi.lpBaseOfDll << std::endl;
+
+        // Close the process handle
+        CloseHandle(hProcess);
+
+        return mi.lpBaseOfDll;
+
+    }
+
 #endif 
 int install_hooks(ssize_t startingAddress);
 static void (*original_tick_func)();

@@ -63,8 +63,8 @@ void tick_hook()
         original_tick_func();
         Tick::stepCounter--;
     }
-   
-    Tick::tickCounter = (Tick::tickCounter + 1) % Tick::tickSlowdown;
+
+    if (Tick::tickSlowdown != 0) {Tick::tickCounter = (Tick::tickCounter + 1) % Tick::tickSlowdown;}
 
     return;
 }
