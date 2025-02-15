@@ -32,28 +32,6 @@
 class Boreal : public endstone::Plugin {
 public:
 
- #if defined(__GNUC__) 
-    size_t getAddr(){
-        std::string addressRange;
-        std::ifstream mapsFile("/proc/self/maps");
-
-        if (mapsFile.is_open()) {
-            std::string line;
-            std::getline(mapsFile, line);
-
-            size_t start = line.find("-");
-            size_t end = line.find(" ");
-
-            addressRange = line.substr(0, start);
-
-            getLogger().info(addressRange);
-            mapsFile.close();
-        } else {
-            getLogger().info("unable to open /proc/self/maps");
-        }
-        return (ssize_t)std::stol(addressRange, NULL, 16);
-    }
- #endif 
 
     void onLoad() override
     {
@@ -65,10 +43,12 @@ public:
         size_t startAddr = getAddr();
 
         getLogger().info("Boreal enabled!");
+        getLogger().info("Installing hooks");
         int rv = install_hooks(startAddr);
-        if (rv == 0){
-        getLogger().info("Hooks Installed!");
+        if (rv != 0){
+            getLogger().error("Couldn't install hooks");
         }
+        getLogger().info("Hooks Installed!");
     }
 
     void onDisable() override
@@ -127,6 +107,21 @@ public:
                 sender.sendMessage("TODO: Implement tick warp");
                 return true;
             }
+        }
+
+        if (command.getName() == "listactors"){
+            auto actors = getServer().getLevel()->getActors();
+            for (auto actor : actors){
+
+                std::string actorName = actor->getName();
+
+                if (actorName == "Villager"){
+                    sender.sendMessage("Villager: " + std::to_string(actor->getId()));
+                } else {
+                    sender.sendMessage(actorName);
+                }
+            }
+            return true;
         }
 
         sender.sendErrorMessage("Unknown command: /{}", command.getName());

@@ -1,6 +1,7 @@
 // Copyright (c) 2024, The Endstone Project. (https://endstone.dev) All Rights Reserved.
 
 #include "boreal.h"
+#include "endstone/level/level.h"
 
 #include <cstdio>
 #include <funchook.h>
@@ -16,6 +17,12 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
     description = "C++ example plugin for Endstone servers";
     website = "";
     authors = {"R2leyser"};
+
+
+    command("listactors")
+        .description("list all the actors loaded")
+        .usages("/listactors")
+        .permissions("boreal.command.op");
 
     command("flyspeed")
         .description("A command to change your fly speed")
@@ -50,7 +57,7 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
 void tick_hook()
 {
     if (!Tick::tickFreeze && Tick::tickCounter == 0){
-        for(int i = 0; i < Tick::tickAccel; i++){
+        for(int i = 0; i < 2; i++){
             original_tick_func();
         }
     } else if (Tick::tickFreeze && Tick::stepCounter != 0){
@@ -67,25 +74,19 @@ int install_hooks(ssize_t startingAddress)
 {
 
     int rv;
-    std::printf("entered install_hooks\n");
 
     funchook_set_debug_file("funchook-debug");
     funchook_t *funchook = funchook_create();
 
-    printf("Created funchook\n");
-    printf("startingAddress: %ld\n", startingAddress);
 
     ssize_t tickAddr = startingAddress + 130259312; // address of "_ZN5Level4tickEv"
-    printf("tick addr: %ld\n", tickAddr);
     /* Preparekhooking.
      * The return value is used to call the original tick function
      * in tick_hook.
      */
     original_tick_func = (void(*)())tickAddr;
 
-    std::printf("Right before funchook_prepare\n");
     funchook_prepare(funchook, (void **)&original_tick_func, (void*)&tick_hook);
-    printf("funchook prepare");
     if (rv != 0) {
     }
 
