@@ -85,14 +85,10 @@ public:
             }
 
             if (args[0] == "step") {
-                if (args[1] == "stop"){
-                    Tick::stepCounter = 0;
-                } else {
-                    Tick::stepCounter = std::stoi(args[1]);
-                    if (Tick::stepCounter == 0) {
-                        Tick::stepCounter = 1;
-                    }
-                }
+                Tick::stepCounter = std::stoi(args[1]);
+                if (Tick::stepCounter == 0) {
+                    Tick::stepCounter = 1;
+            }
                 return true;
             }
             

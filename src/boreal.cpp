@@ -37,7 +37,6 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
         .usages("/tick (freeze) <b: bool>")
         .usages("/tick (unfreeze) <b: bool>")
         .usages("/tick (step) <b: bool> [n: int]")
-        .usages("/tick (step) <b: bool> (stop) <b: bool>")
         .permissions("boreal.command.op");
 
     permission("boreal.command")
