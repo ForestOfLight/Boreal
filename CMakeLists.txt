@@ -14,5 +14,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(endstone)
 
 link_directories("/usr/local/lib/")
-link_libraries(-lfunchook)
-endstone_add_plugin(${PROJECT_NAME} src/boreal.cpp)
+link_directories("installed/lib/")
+include_directories("installed/include/")
+link_libraries(funchook distorm)
+endstone_add_plugin(${PROJECT_NAME} src/boreal.cpp installed/include/funchook.h installed/include/distorm.h installed/include/mnemonics.h)
