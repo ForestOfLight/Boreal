@@ -69,7 +69,7 @@ void tick_hook()
     return;
 }
 
-int install_hooks(ssize_t startingAddress)
+int install_hooks(void * startingAddress)
 {
 
     int rv;
@@ -77,8 +77,11 @@ int install_hooks(ssize_t startingAddress)
     funchook_set_debug_file("funchook-debug");
     funchook_t *funchook = funchook_create();
 
-
-    ssize_t tickAddr = startingAddress + 130259312; // address of "_ZN5Level4tickEv"
+#ifdef __GNUC__
+    void *tickAddr = (char *)startingAddress + 130259312; // address of "_ZN5Level4tickEv"
+#else 
+    void *tickAddr = (char *)startingAddress + 39489328; // address of "?tick@Level@@UEAAXXZ"
+#endif
     /* Preparekhooking.
      * The return value is used to call the original tick function
      * in tick_hook.

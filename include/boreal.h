@@ -40,7 +40,7 @@ public:
 
     void onEnable() override
     {
-        size_t startAddr = getAddr();
+        void * startAddr = getAddr();
 
         getLogger().info("Boreal enabled!");
         getLogger().info("Installing hooks");
