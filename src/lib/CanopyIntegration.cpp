@@ -74,9 +74,9 @@ void CanopyIntegration::registerRule(Rule rule) {
 }
 
 void CanopyIntegration::handleRuleValueRequests() {
-//    ipc::on<CanopyRulePacket>(fmt.format("canopyIntegration:", this->id, ":ruleValueRequest") ...);
+//    ipc::on<CanopyRuleRequestPacket>(fmt.format("canopyIntegration:", this->id, ":ruleValueRequest") ...);
 }
 
 void CanopyIntegration::handleRuleValueSetters() {
-//    ipc::on<CanopyRulePacket>(fmt.format("canopyIntegration:", this->id, ":ruleValueSet") ...);
+//    ipc::on<CanopyRuleSetPacket>(fmt.format("canopyIntegration:", this->id, ":ruleValueSet") ...);
 }
