@@ -1,24 +1,11 @@
 #include "lib/Rule.h"
 
-Rule::Rule(std::string name, std::string description, std::vector<Rule> contingentRules, std::vector<Rule> independentRules) {
+Rule::Rule(std::string name, std::string description, std::vector<Rule> contingentRules,
+           std::vector<Rule> independentRules) {
     this->identifier = name;
     this->description = description;
     this->contingentRules = contingentRules;
     this->independentRules = independentRules;
-    this->value = false;
-}
-
-Rule::Rule(std::string name, std::string description, std::vector<Rule> contingentRules) {
-    this->identifier = name;
-    this->description = description;
-    this->contingentRules = contingentRules;
-    this->value = false;
-}
-
-Rule::Rule(std::string name, std::string description) {
-    this->identifier = name;
-    this->description = description;
-    this->value = false;
 }
 
 Rule::~Rule() {
@@ -43,9 +30,9 @@ std::vector<Rule> Rule::getIndependentRules() {
 }
 
 bool Rule::getValue() {
-    return this->value;
+    // get stored value
 }
 
 void Rule::setValue(bool value) {
-    this->value = value;
+    // set stored value
 }

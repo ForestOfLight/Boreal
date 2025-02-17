@@ -5,9 +5,8 @@
 
 class Rule {
     public:
-        Rule(std::string name, std::string description, std::vector<Rule> contingentRules, std::vector<Rule> independentRules);
-        Rule(std::string name, std::string description, std::vector<Rule> contingentRules);
-        Rule(std::string name, std::string description);
+        Rule(std::string name, std::string description, std::vector<Rule> contingentRules = {},
+           std::vector<Rule> independentRules = {});
         ~Rule();
 
         std::string getID();
@@ -22,5 +21,4 @@ class Rule {
         std::string description;
         std::vector<Rule> contingentRules;
         std::vector<Rule> independentRules;
-        bool value; // Needs to be saved across sessions
 };
