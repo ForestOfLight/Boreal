@@ -31,8 +31,6 @@
 
 class Boreal : public endstone::Plugin {
 public:
-
-
     void onLoad() override
     {
         getLogger().info("Boreal loaded succesfully");
@@ -88,7 +86,7 @@ public:
                 Tick::stepCounter = std::stoi(args[1]);
                 if (Tick::stepCounter == 0) {
                     Tick::stepCounter = 1;
-            }
+                }
                 return true;
             }
             

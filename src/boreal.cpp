@@ -56,9 +56,7 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
 void tick_hook()
 {
     if (!Tick::tickFreeze && Tick::tickCounter == 0){
-        for(int i = 0; i < 2; i++){
-            original_tick_func();
-        }
+        original_tick_func();
     } else if (Tick::tickFreeze && Tick::stepCounter != 0){
         original_tick_func();
         Tick::stepCounter--;
@@ -88,7 +86,7 @@ int install_hooks(void * startingAddress)
      */
     original_tick_func = (void(*)())tickAddr;
 
-    funchook_prepare(funchook, (void **)&original_tick_func, (void*)&tick_hook);
+    rv = funchook_prepare(funchook, (void **)&original_tick_func, (void*)&tick_hook);
     if (rv != 0) {
     }
 
