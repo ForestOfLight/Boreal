@@ -24,7 +24,7 @@
         } else {
             std::printf("Failed to open /proc/self/maps");
         }
-        return (ssize_t)std::stol(addressRange, NULL, 16);
+        return (void *)std::stol(addressRange, NULL, 16);
     }
 #else
 	#include <windows.h>
