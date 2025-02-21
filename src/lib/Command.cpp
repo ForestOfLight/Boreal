@@ -1,7 +1,7 @@
 #include "lib/Command.h"
 
-Command::Command(std::string name, std::string description, std::string usage, std::vector<std::string> args,
-                 std::vector<Rule> contingentRules, bool adminOnly, std::vector<std::string> helpEntries,
+Command::Command(std::string name, std::string description, std::string usage, std::vector<Arg> args,
+                 std::vector<std::string> contingentRules, bool adminOnly, std::vector<HelpEntry> helpEntries,
                  bool helpHidden) {
     this->name = name;
     this->description = description;
@@ -31,11 +31,11 @@ std::string Command::getUsage() {
     return this->usage;
 }
 
-std::vector<std::string> Command::getArgs() {
+std::vector<Arg> Command::getArgs() {
     return this->args;
 }
 
-std::vector<Rule> Command::getContingentRules() {
+std::vector<std::string> Command::getContingentRules() {
     return this->contingentRules;
 }
 
@@ -43,7 +43,7 @@ bool Command::isAdminOnly() {
     return this->adminOnly;
 }
 
-std::vector<std::string> Command::getHelpEntries() {
+std::vector<HelpEntry> Command::getHelpEntries() {
     return this->helpEntries;
 }
 

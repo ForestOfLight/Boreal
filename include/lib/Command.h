@@ -5,29 +5,39 @@
 
 #include "lib/Rule.h"
 
+struct Arg {
+    std::string type;
+    std::string name;
+};
+
+struct HelpEntry {
+    std::string usage;
+    std::string description;
+};
+
 class Command {
     public:
-        Command(std::string name, std::string description, std::string usage, std::vector<std::string> args = {},
-              std::vector<Rule> contingentRules = {}, bool adminOnly = false, std::vector<std::string> helpEntries = {},
+        Command(std::string name, std::string description, std::string usage, std::vector<Arg> args = {},
+              std::vector<std::string> contingentRules = {}, bool adminOnly = false, std::vector<HelpEntry> helpEntries = {},
               bool helpHidden = false);
         ~Command();
 
         std::string getName();
         std::string getDescription();
         std::string getUsage();
-        std::vector<std::string> getArgs();
-        std::vector<Rule> getContingentRules();
+        std::vector<Arg> getArgs();
+        std::vector<std::string> getContingentRules();
         bool isAdminOnly();
-        std::vector<std::string> getHelpEntries();
+        std::vector<HelpEntry> getHelpEntries();
         bool isHelpHidden();
 
     private:
         std::string name;
         std::string description;
         std::string usage;
-        std::vector<std::string> args;
-        std::vector<Rule> contingentRules;
+        std::vector<Arg> args;
+        std::vector<std::string> contingentRules;
         bool adminOnly;
-        std::vector<std::string> helpEntries;
+        std::vector<HelpEntry> helpEntries;
         bool helpHidden;
 };

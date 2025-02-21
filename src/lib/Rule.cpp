@@ -1,7 +1,7 @@
 #include "lib/Rule.h"
 
-Rule::Rule(std::string name, std::string description, std::vector<Rule> contingentRules,
-           std::vector<Rule> independentRules) {
+Rule::Rule(std::string name, std::string description, std::vector<std::string> contingentRules,
+           std::vector<std::string> independentRules) {
     this->identifier = name;
     this->description = description;
     this->contingentRules = contingentRules;
@@ -21,11 +21,11 @@ std::string Rule::getDescription() {
     return this->description;
 }
 
-std::vector<Rule> Rule::getContingentRules() {
+std::vector<std::string> Rule::getContingentRules() {
     return this->contingentRules;
 }
 
-std::vector<Rule> Rule::getIndependentRules() {
+std::vector<std::string> Rule::getIndependentRules() {
     return this->independentRules;
 }
 
