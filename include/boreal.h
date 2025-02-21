@@ -1,36 +1,19 @@
 #pragma once
 
 #include "endstone/server.h"
-#include <cstddef>
-#include <cstdio>
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include <string>
-#include <endstone/color_format.h>
 #include <endstone/command/plugin_command.h>
 #include <endstone/event/server/server_command_event.h>
 #include <endstone/event/server/server_load_event.h>
-#include <endstone/player.h>
 #include <endstone/plugin/plugin.h>
 #include <endstone/level/level.h>
-/* #include <bedrock/world/level/level.h> */
 #include <memory>
-#include <string>
 #include <variant>
 #include <vector>
-#include "hook.h"
+
 #include "lib/CanopyExtension.h"
-
-/* class TickHandler : public Level { */
-
-/*     public: */ 
-/*         void tick() { */
-/*             std::printf("a"); */
-/*         } */
-
-/* }; */
-
+#include "hook.h"
+#include "TickCommandExecutor.h"
 
 class Boreal : public endstone::Plugin {
 public:
@@ -38,21 +21,24 @@ public:
 
     void onLoad() override
     {
-        getLogger().info("Boreal loaded succesfully");
+        getLogger().info("Boreal loaded successfully");
     }
 
     void onEnable() override
     {
-        void * startAddr = getAddr();
+        void * baseAddress = getBaseAddress();
         getLogger().info("Boreal enabled!");
-        getLogger().info("Installing hooks");
-        int rv = install_hooks(startAddr);
+        int rv = install_hooks(baseAddress);
         if (rv != 0){
-            getLogger().error("Couldn't install hooks");
+            getLogger().error("Failed to install hooks.");
         }
-        getLogger().info("Hooks Installed!");
-        
-        this->canopyExtension = std::make_unique<CanopyExtension>("Boreal", "0.1.0", "R2leyser", "Canopy Extension for Endstone", *this);
+        getLogger().info("Hooks installed!");
+
+        this->canopyExtension = std::make_unique<CanopyExtension>(*this);
+
+        if (auto *command = getCommand("tick")){
+            command->setExecutor(std::make_unique<TickCommandExecutor>());
+        }
     }
 
     void onDisable() override
@@ -63,52 +49,6 @@ public:
     bool onCommand(endstone::CommandSender &sender, const endstone::Command &command,
                    const std::vector<std::string> &args) override
     {
-        if (command.getName() == "flyspeed") {
-            if (args.size() == 0) {
-                sender.sendMessage("Flyspeed set to default");
-                sender.asPlayer()->setFlySpeed(0.05f);
-                return true;
-            }
-            sender.sendMessage("Flyspeed set to: " + args[0] + "x");
-           /* sender.asPlayer()->setFlying(false); */
-            sender.asPlayer()->setFlySpeed(std::stof(args[0]) * 0.05);
-            return true;
-        }
-
-
-        if (command.getName() == "tick"){
-
-            if (args[0] == "freeze") {
-                Tick::tickFreeze = true;
-                return true;
-            }
-
-            if (args[0] == "unfreeze") {
-                Tick::tickFreeze = false;
-                return true;
-            }
-
-            if (args[0] == "step") {
-                Tick::stepCounter = std::stoi(args[1]);
-                if (Tick::stepCounter == 0) {
-                    Tick::stepCounter = 1;
-                }
-                return true;
-            }
-            
-
-            if (args[0] == "slow") {
-                Tick::tickSlowdown = std::stoi(args[1]);
-                return true;
-            }
-
-            if (args[0] == "sprint") {
-                /* Tick::tickAccel = std::stoi(args[1]); */
-                sender.sendMessage("TODO: Implement tick warp");
-                return true;
-            }
-        }
-
         if (command.getName() == "listactors"){
             auto actors = getServer().getLevel()->getActors();
             for (auto actor : actors){

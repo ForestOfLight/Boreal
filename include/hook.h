@@ -1,10 +1,7 @@
 #pragma once
 
-#include "endstone/level/level.h"
-#include <cstdio>
-
-#include <string>
-#include <fstream>
+#include <funchook.h>
+#include "Tick.h"
 
 #if defined(__GNUC__) 
     void *getAddr(){
@@ -31,7 +28,7 @@
 	#include <windows.h>
 	#include <Psapi.h>
 
-	   void* getAddr(){
+	   void* getBaseAddress(){
 	       // Get the current process ID
 	       DWORD currentProcessId = GetCurrentProcessId();
 
@@ -61,16 +58,23 @@
 
 	   }
 
-#endif 
+#endif
 
-int install_hooks(void *startingAddress);
-static void (*original_tick_func)();
-static void tick_hook();
+int install_hooks(void *baseAddress)
+{
+    int rv;
 
-namespace Tick {
-    static bool tickFreeze = false;
-    static int tickCounter = 0;
-    static int tickSlowdown = 1;
-    static int tickAccel = 1;
-    static int stepCounter = 0;
+    funchook_set_debug_file("funchook-debug");
+    funchook_t *funchook = funchook_create();
+
+    Tick::hook(baseAddress, funchook);
+
+    /* Install hooks.
+	 * The first 5-byte code of tick() and recv() are changed respectively.
+	 */
+    rv = funchook_install(funchook, 0);
+    if (rv != 0) {
+    	/* error */
+    }
+    return rv;
 }
