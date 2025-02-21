@@ -14,7 +14,7 @@
 ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
 {
     prefix = "Boreal";
-    description = "C++ example plugin for Endstone servers";
+    description = "Canopy Extension for Endstone";
     website = "";
     authors = {"R2leyser"};
 
@@ -28,7 +28,7 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
         .description("A command to change your fly speed")
         .usages("/flyspeed [speed: float]")
         .aliases("fs")
-        .permissions("boreal.command.flyspeed");
+        .permissions("boreal.command.flyspeed")
         .description("Command to change the tick speed of the game")
         .usages("/tick (sprint)<a: bool> <n: int>")
         .usages("/tick (slow)<a: bool> <n: int>")

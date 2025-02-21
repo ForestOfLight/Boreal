@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ipc.h"
 
 #include <string>

@@ -27,6 +27,7 @@
         return (void *)std::stol(addressRange, NULL, 16);
     }
 #else
+	#define NOMINMAX
 	#include <windows.h>
 	#include <Psapi.h>
 

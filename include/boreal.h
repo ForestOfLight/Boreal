@@ -1,3 +1,5 @@
+#pragma once
+
 #include "endstone/server.h"
 #include <cstddef>
 #include <cstdio>
@@ -18,6 +20,7 @@
 #include <variant>
 #include <vector>
 #include "hook.h"
+#include "lib/CanopyExtension.h"
 
 /* class TickHandler : public Level { */
 
@@ -31,6 +34,8 @@
 
 class Boreal : public endstone::Plugin {
 public:
+    std::unique_ptr<CanopyExtension> canopyExtension;
+
     void onLoad() override
     {
         getLogger().info("Boreal loaded succesfully");
@@ -39,7 +44,6 @@ public:
     void onEnable() override
     {
         void * startAddr = getAddr();
-
         getLogger().info("Boreal enabled!");
         getLogger().info("Installing hooks");
         int rv = install_hooks(startAddr);
@@ -47,6 +51,8 @@ public:
             getLogger().error("Couldn't install hooks");
         }
         getLogger().info("Hooks Installed!");
+        
+        this->canopyExtension = std::make_unique<CanopyExtension>("Boreal", "0.1.0", "R2leyser", "Canopy Extension for Endstone", *this);
     }
 
     void onDisable() override
