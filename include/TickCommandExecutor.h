@@ -3,79 +3,81 @@
 #include <endstone/command/command_executor.h>
 #include <string>
 #include "Tick.h"
-#include <endstone/server.h>
 
 class TickCommandExecutor : public endstone::CommandExecutor {
 public:
     bool onCommand(endstone::CommandSender &sender, const endstone::Command &command,
              const std::vector<std::string> &args) override {
-        std::string feedback = "Usage: /tick <query|rate|freeze|unfreeze|step|sprint> [<rate>|<time>]";
         if (args[0] == "query") {
-            feedback = query();
+            query(sender);
+            return true;
         }
         if (args[0] == "rate") {
-            feedback = rate(std::stof(args[1]));
+            setRate(sender, args);
+            return true;
         }
         if (args[0] == "freeze") {
-            feedback = freeze();
+            freeze(sender);
+            return true;
         }
         if (args[0] == "unfreeze") {
-            feedback = unfreeze();
+            unfreeze(sender);
+            return true;
         }
         if (args[0] == "step") {
-            if (args[1] == "stop") {
-                feedback = step(0);
-            } else {
-                feedback = step(std::stoi(args[1]));
-            }
+            step(sender, args);
+            return true;
         }
         if (args[0] == "sprint") {
-            if (args[1] == "stop") {
-                feedback = sprint(0);
-            } else {
-                feedback = sprint(std::stoi(args[1]));
-            }
+            sprint(sender, args);
+            return true;
         }
-        sender.sendMessage(feedback);
+        sender.sendMessage(command.getUsages().front());
         return true;
     }
 
 private:
-    std::string query() {
-        return "Current target tick rate: " + std::to_string(Tick::targetTickRate);
+    void query(endstone::CommandSender &sender) {
+        sender.sendMessage("Query is not yet implemented.");
+        // Should pull in endstone::Server for tick speed info because they already have it
     }
 
-    std::string freeze() {
-        Tick::storedTickRate = Tick::targetTickRate;
-        Tick::targetTickRate = 0.0;
-        return "Tick rate frozen.";
+    void setRate(endstone::CommandSender &sender, const std::vector<std::string> &args) {
+        double rate = 20.0;
+        if (args.size() > 1)
+            rate = std::stod(args[1]);
+        Tick::setRate(rate);
+        sender.sendMessage("Tick rate set to {}.", std::to_string(rate));
     }
 
-    std::string unfreeze() {
-        Tick::targetTickRate = Tick::storedTickRate;
-        return "Tick rate unfrozen.";
+    void freeze(endstone::CommandSender &sender) {
+        Tick::freeze();
+        sender.sendMessage("Tick rate now frozen.");
     }
 
-    std::string step(int ticks) {
-        if (ticks == 0) {
-            ticks = 1;
+    void unfreeze(endstone::CommandSender &sender) {
+        Tick::unfreeze();
+        sender.sendMessage("Tick rate runs normally.");
+    }
+
+    void step(endstone::CommandSender &sender, const std::vector<std::string> &args) {
+        int ticks = 1;
+        if (args.size() > 1 && args[1] == "0") {
+            ticks = 0;
+        } else if (args.size() > 1) {
+            ticks = std::stoi(args[1]);
         }
-        Tick::stepTicks = ticks;
-        return "Stepping " + std::to_string(ticks) + " ticks";
+        Tick::step(ticks);
+        sender.sendMessage("Stepping {} ticks...", std::to_string(ticks));
     }
 
-    std::string rate(float tps) {
-        Tick::storedTickRate = 20.0;
-        Tick::targetTickRate = tps;
-        return "Tick rate set to " + std::to_string(tps);
-    }
-
-    std::string sprint(int ticks) {
-        if (ticks == 0) {
-            ticks = 1;
+    void sprint(endstone::CommandSender &sender, const std::vector<std::string> &args) {
+        int ticks = 1;
+        if (args.size() > 1 && args[1] == "stop") {
+            ticks = 0;
+        } else if (args.size() > 1) {
+            ticks = std::stoi(args[1]);
         }
-        Tick::sprintTicks = ticks;
-        /* Tick::tickAccel = std::stoi(args[1]); */
-        return "TODO: Implement tick warp";
+        Tick::sprint(sender, ticks);
     }
 };
