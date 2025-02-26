@@ -16,10 +16,10 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
     website = "https://github.com/ForestOfLight/Boreal";
     authors = {"R2leyser", "ForestOfLight"};
 
-    command("listactors")
-        .description("list all the actors loaded")
-        .usages("/listactors")
-        .permissions("boreal.command.op");
+    // command("listactors")
+    //     .description("list all the actors loaded")
+    //     .usages("/listactors")
+    //     .permissions("boreal.command.op");
 
     command("flyspeed")
         .description("A command to change your fly speed")
