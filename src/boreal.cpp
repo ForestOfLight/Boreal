@@ -29,11 +29,11 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.0", /*main_class=*/Boreal)
 
     command("tick")
         .description("Controls the tick rate of the game")
-        .usages("/tick (sprint)<a: bool> <n: int>")
-        .usages("/tick (slow)<a: bool> <n: int>")
+        .usages("/tick (rate)<a: bool> <n: int>")
         .usages("/tick (freeze)<b: bool>")
         .usages("/tick (unfreeze)<b: bool>")
         .usages("/tick (step)<b: bool> [n: int]")
+        .usages("/tick (sprint)<a: bool> <n: int>")
         .permissions("boreal.command.op");
 
     permission("boreal.command")
