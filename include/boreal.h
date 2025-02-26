@@ -36,7 +36,8 @@ public:
 
         this->canopyExtension = std::make_unique<CanopyExtension>(*this);
 
-        Tick::logger = &getLogger();
+        TickSpeed::logger = &getLogger();
+        TickSpeed::server = &getServer();
         if (auto *command = getCommand("tick")){
             command->setExecutor(std::make_unique<TickCommandExecutor>());
         }

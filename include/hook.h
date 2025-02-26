@@ -67,7 +67,7 @@ int install_hooks(void *baseAddress)
     funchook_set_debug_file("funchook-debug");
     funchook_t *funchook = funchook_create();
 
-    Tick::hook(baseAddress, funchook);
+    TickSpeed::hook(baseAddress, funchook);
 
     /* Install hooks.
 	 * The first 5-byte code of tick() and recv() are changed respectively.
