@@ -14,6 +14,7 @@
 #include "lib/CanopyExtension.h"
 #include "hook.h"
 #include "TickCommandExecutor.h"
+#include "FlyspeedCommandExecutor.h"
 
 class Boreal : public endstone::Plugin {
 public:
@@ -40,6 +41,9 @@ public:
         TickSpeed::server = &getServer();
         if (auto *command = getCommand("tick")){
             command->setExecutor(std::make_unique<TickCommandExecutor>());
+        }
+        if (auto *command = getCommand("flyspeed")) {
+            command->setExecutor(std::make_unique<FlyspeedCommandExecutor>());
         }
     }
 
