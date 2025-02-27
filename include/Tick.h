@@ -46,13 +46,13 @@ public:
         if (ticks == 0) {
             shouldInterruptSprint = true;
             if (sprintTicks > 0) {
-                sender.sendMessage("§cSprint interrupted.");
+                finishSprint();
+                sender.sendMessage("§7Interrupted current tick sprint.");
             }
-            sprintTicks = 0;
             return;
         }
         if (sprintTicks > 0 || stepTicks > 0) {
-            sender.sendMessage("§cTick speed is already sprinting.");
+            sender.sendMessage("§cThe game is already sprinting.");
             return;
         }
         sprintSender = &sender;
@@ -77,6 +77,10 @@ public:
         } else {
             server->broadcastMessage(message);
         }
+    }
+
+    static bool isSprinting() {
+        return sprintTicks > 0;
     }
 
     static void hook(void *baseAddress, funchook_t *funchook);
