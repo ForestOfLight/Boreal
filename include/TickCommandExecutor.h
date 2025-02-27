@@ -107,7 +107,7 @@ private:
 
     void sprint(endstone::CommandSender &sender, const std::vector<std::string> &args) {
         int ticks = 1;
-        int minAllowed = 1;
+        int minAllowed = 0;
         if (args.size() > 1) {
             ticks = std::stoi(args[1]);
         }
