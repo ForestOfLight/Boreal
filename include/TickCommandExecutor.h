@@ -61,8 +61,9 @@ private:
         if (args.size() > 1) {
             ticks = std::stoi(args[1]);
         }
-        if (ticks <= 0) {
-            ticks = 1;
+        if (ticks < 0) {
+            sender.sendMessage("§cInvalid number of ticks.");
+            return;
         }
         TickSpeed::step(ticks);
         sender.sendMessage("§7Stepping {} ticks...", std::to_string(ticks));
