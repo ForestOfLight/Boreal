@@ -14,7 +14,6 @@ public:
     static bool shouldStartStepping;
     static int sprintTicks;
     static bool shouldInterruptSprint;
-    static endstone::CommandSender *sprintSender;
     static std::chrono::time_point<std::chrono::system_clock> sprintStartDate;
 
     static endstone::Server *server;
@@ -51,18 +50,17 @@ public:
             shouldInterruptSprint = true;
             if (sprintTicks > 0) {
                 finishSprint();
-                sender.sendMessage("§7Interrupted current tick sprint.");
+                server->broadcastMessage("§7Interrupted current tick sprint.");
             }
             return;
         }
         if (sprintTicks > 0 || stepTicks > 0) {
-            sender.sendMessage("§cThe game is already sprinting.");
+            server->broadcastMessage("§cThe game is already sprinting.");
             return;
         }
-        sprintSender = &sender;
         sprintStartDate = std::chrono::system_clock::now();
         sprintTicks = ticks;
-        sender.sendMessage("§7Sprinting...", ticks);
+        server->broadcastMessage("§7Sprinting {} ticks...", ticks);
     }
 
     static void finishSprint() {
@@ -76,11 +74,7 @@ public:
         double mspt = (1.0*msToCompletion) / completedTicks;
         sprintTicks = 0;
         std::string message = fmt::format("§7Sprint completed at {} tps ({} mspt).", tps, mspt);
-        if (sprintSender != nullptr) {
-            sprintSender->sendMessage(message);
-        } else {
-            server->broadcastMessage(message);
-        }
+        server->broadcastMessage(message);
     }
 
     static bool isSprinting() {
@@ -90,6 +84,7 @@ public:
     static void onPlayerQuit(endstone::PlayerQuitEvent &event) {
         if (freezeSender != nullptr && event.getPlayer().getName() == freezeSender->getName()) {
             unfreeze();
+            server->broadcastMessage("§7Freezing player quit. The game is running normally.");
         }
     }
 
@@ -147,7 +142,6 @@ inline int TickSpeed::stepTicks = 0;
 inline bool TickSpeed::shouldStartStepping = false;
 inline int TickSpeed::sprintTicks = 0;
 inline bool TickSpeed::shouldInterruptSprint = false;
-inline endstone::CommandSender *TickSpeed::sprintSender = nullptr;
 inline std::chrono::time_point<std::chrono::system_clock> TickSpeed::sprintStartDate;
 inline endstone::Server *TickSpeed::server;
 inline endstone::Logger *TickSpeed::logger;

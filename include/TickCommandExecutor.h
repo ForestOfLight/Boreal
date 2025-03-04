@@ -6,6 +6,8 @@
 
 class TickCommandExecutor : public endstone::CommandExecutor {
 public:
+    explicit TickCommandExecutor(endstone::Plugin &plugin) : plugin(plugin) {}
+
     bool onCommand(endstone::CommandSender &sender, const endstone::Command &command,
              const std::vector<std::string> &args) override {
         if (args[0] == "query") {
@@ -52,7 +54,7 @@ private:
         else
             message += "\n";
 
-        message += fmt::format("§7Average time per tick: {:.1f}ms", TickSpeed::server->getAverageMillisecondsPerTick());
+        message += fmt::format("§7Average time per tick: {:.1f}ms", plugin.getServer().getAverageMillisecondsPerTick());
         if (!TickSpeed::isSprinting())
             message += fmt::format(" (Target: {:.1f}ms)\n", 1000.0 / TickSpeed::targetTickRate);
         else
@@ -61,9 +63,9 @@ private:
     }
 
     void setRate(endstone::CommandSender &sender, const std::vector<std::string> &args) {
-        double minRate = 0;
-        double maxRate = 1000;
-        double rate = std::stod(args[1]);
+        float minRate = 0;
+        float maxRate = 1000;
+        float rate = std::stof(args[1]);
         if (rate <= minRate) {
             sender.sendMessage("§cThe tick rate must not be less than or equal to {:.1f}, found {}.", minRate, rate);
             return;
@@ -73,7 +75,7 @@ private:
             return;
         }
         TickSpeed::setRate(rate);
-        sender.sendMessage("§7Set the target tick rate to {}.", args[1]);
+        plugin.getServer().broadcastMessage("§7Set the target tick rate to {}.", args[1]);
     }
 
     void freeze(endstone::CommandSender &sender) {
@@ -81,13 +83,13 @@ private:
             unfreeze(sender);
         } else {
             TickSpeed::freeze(sender);
-            sender.sendMessage("§7The game is frozen.");
+            plugin.getServer().broadcastMessage("§7The game is frozen.");
         }
     }
 
     void unfreeze(endstone::CommandSender &sender) {
         TickSpeed::unfreeze();
-        sender.sendMessage("§7The game is running normally.");
+        plugin.getServer().broadcastMessage("§7The game is running normally.");
     }
 
     void step(endstone::CommandSender &sender, const std::vector<std::string> &args) {
@@ -106,7 +108,7 @@ private:
             return;
         }
         TickSpeed::step(ticks);
-        sender.sendMessage("§7Stepping {} tick(s).", std::to_string(ticks));
+        plugin.getServer().broadcastMessage("§7Stepping {} tick(s).", std::to_string(ticks));
     }
 
     void sprint(endstone::CommandSender &sender, const std::vector<std::string> &args) {
@@ -116,9 +118,11 @@ private:
             ticks = std::stoi(args[1]);
         }
         if (ticks < minAllowed) {
-            sender.sendMessage("§cThe tick count must not be less than {}, found {}.", minAllowed, ticks);
+            plugin.getServer().broadcastMessage("§cThe tick count must not be less than {}, found {}.", minAllowed, ticks);
             return;
         }
         TickSpeed::sprint(sender, ticks);
     }
+private:
+    endstone::Plugin &plugin;
 };

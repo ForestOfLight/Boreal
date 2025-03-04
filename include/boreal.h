@@ -41,7 +41,7 @@ public:
         TickSpeed::logger = &getLogger();
         TickSpeed::server = &getServer();
         if (auto *command = getCommand("tick")){
-            command->setExecutor(std::make_unique<TickCommandExecutor>());
+            command->setExecutor(std::make_unique<TickCommandExecutor>(*this));
         }
 
         playerQuitListener = std::make_unique<PlayerQuitListener>(*this);
