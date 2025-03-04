@@ -14,7 +14,7 @@ public:
     std::string name;
     std::string version;
     std::string author;
-    std::string description;
+    Description description;
     endstone::Plugin &plugin;
 
     CanopyExtension(endstone::Plugin &plugin);
@@ -44,14 +44,14 @@ inline CanopyExtension::CanopyExtension(endstone::Plugin &plugin): plugin(plugin
     this->id = this->makeID(this->name);
     this->version = description.getVersion();
     this->author = description.getAuthors().front();
-    this->description = description.getDescription();
+    this->description.text = description.getDescription();
     this->commands = std::unordered_map<std::string, Command>();
     this->rules = std::unordered_map<std::string, Rule>();
     this->isRegistrationReady = false;
 
     this->registerExtension();
-    this->handleRuleValueRequests();
-    this->handleRuleValueSetters();
+    // this->handleRuleValueRequests();
+    // this->handleRuleValueSetters();
 }
 
 inline CanopyExtension::~CanopyExtension() {
@@ -95,30 +95,28 @@ inline std::string CanopyExtension::makeID(std::string name) {
 }
 
 inline void CanopyExtension::registerExtension() {
-    ipc::once<Ready>("canopyExtension:ready", [this](const Ready &ready) {
-        RegisterExtension registerExtension;
-        registerExtension.name = this->name;
-        registerExtension.version = this->version;
-        registerExtension.author = this->author;
-        registerExtension.description = this->description;
-        registerExtension.isEndstone = true;
-        ipc::send<RegisterExtension>("canopyExtension:registerExtension", registerExtension, this->plugin);
-    });
-    ipc::once<Ready>(fmt::format("canopyExtension:{}:ready", this->id), [this](const Ready &ready) {
-        this->isRegistrationReady = true;
-        for (auto &command : this->commands) {
-            this->registerCommand(command.second);
-        }
-        for (auto &rule : this->rules) {
-            this->registerRule(rule.second);
-        }
-    });
+    RegisterExtension registerExtension;
+    registerExtension.name = this->name;
+    registerExtension.version = this->version;
+    registerExtension.author = this->author;
+    registerExtension.description = this->description;
+    registerExtension.isEndstone = true;
+    ipc::send<RegisterExtension>("canopyExtension:registerExtension", registerExtension, this->plugin);
+    // ipc::once<Ready>(fmt::format("canopyExtension:{}:ready", this->id), [this](const Ready &ready) {
+    //     this->isRegistrationReady = true;
+        // for (auto &command : this->commands) {
+        //     this->registerCommand(command.second);
+        // }
+        // for (auto &rule : this->rules) {
+        //     this->registerRule(rule.second);
+        // }
+    // });
 }
 
 inline void CanopyExtension::registerCommand(Command command) {
     RegisterCommand registerCommand;
     registerCommand.name = command.getName();
-    registerCommand.description = command.getDescription();
+    registerCommand.description.text = command.getDescription();
     registerCommand.usage = command.getUsage();
     registerCommand.args = command.getArgs();
     registerCommand.contingentRules = command.getContingentRules();
@@ -132,7 +130,7 @@ inline void CanopyExtension::registerCommand(Command command) {
 inline void CanopyExtension::registerRule(Rule rule) {
     RegisterRule registerRule;
     registerRule.identifier = rule.getID();
-    registerRule.description = rule.getDescription();
+    registerRule.description.text = rule.getDescription();
     registerRule.contingentRules = rule.getContingentRules();
     registerRule.independentRules = rule.getIndependentRules();
     registerRule.extensionName = this->name;
