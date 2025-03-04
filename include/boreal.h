@@ -21,20 +21,13 @@ class Boreal : public endstone::Plugin {
 public:
     std::unique_ptr<CanopyExtension> canopyExtension;
 
-    void onLoad() override
-    {
-        getLogger().info("Boreal loaded successfully");
-    }
-
     void onEnable() override
     {
         void * baseAddress = getBaseAddress();
-        getLogger().info("Boreal enabled!");
         int rv = install_hooks(baseAddress);
         if (rv != 0){
             getLogger().error("Failed to install hooks.");
         }
-        getLogger().info("Hooks installed!");
 
         this->canopyExtension = std::make_unique<CanopyExtension>(*this);
 
@@ -46,11 +39,6 @@ public:
 
         playerQuitListener = std::make_unique<PlayerQuitListener>(*this);
         registerEvent(&PlayerQuitListener::onPlayerQuit, *playerQuitListener, endstone::EventPriority::High);
-    }
-
-    void onDisable() override
-    {
-        getLogger().info("onDisable is called");
     }
 
     bool onCommand(endstone::CommandSender &sender, const endstone::Command &command,
@@ -73,11 +61,6 @@ public:
 
         sender.sendErrorMessage("Unknown command: /{}", command.getName());
         return false;
-    }
-
-    void onServerLoad(endstone::ServerLoadEvent &event)
-    {
-        getLogger().info("{} is passed to ExamplePlugin::onServerLoad", event.getEventName());
     }
 
 private:
