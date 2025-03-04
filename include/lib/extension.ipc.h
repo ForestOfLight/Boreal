@@ -15,18 +15,38 @@ struct Ready final : proto::serializable<Ready> {
     }
 };
 
+struct Description final : proto::serializable<Description> {
+    std::string text;
+    std::string translate;
+    std::vector<std::string> with;
+
+    static void serialize(const Description &value, std::deque<uint8_t> &stream) {
+        proto::string::serialize(value.text, stream);
+        proto::string::serialize(value.translate, stream);
+        proto::array<proto::string>::serialize(value.with, stream);
+    }
+
+    static Description deserialize(std::deque<uint8_t> &stream) {
+        Description value{};
+        value.text = proto::string::deserialize(stream);
+        value.translate = proto::string::deserialize(stream);
+        value.with = proto::array<proto::string>::deserialize(stream);
+        return value;
+    }
+};
+
 struct RegisterExtension final : proto::serializable<RegisterExtension> {
     std::string name;
     std::string version;
     std::string author;
-    std::string description;
+    Description description;
     bool isEndstone;
 
     static void serialize(const RegisterExtension &value, std::deque<uint8_t> &stream) {
         proto::string::serialize(value.name, stream);
         proto::string::serialize(value.version, stream);
         proto::string::serialize(value.author, stream);
-        proto::string::serialize(value.description, stream);
+        Description::serialize(value.description, stream);
         proto::boolean::serialize(value.isEndstone, stream);
     }
 
@@ -35,7 +55,7 @@ struct RegisterExtension final : proto::serializable<RegisterExtension> {
         value.name = proto::string::deserialize(stream);
         value.version = proto::string::deserialize(stream);
         value.author = proto::string::deserialize(stream);
-        value.description = proto::string::deserialize(stream);
+        value.description = Description::deserialize(stream);
         value.isEndstone = proto::boolean::deserialize(stream);
         return value;
     }
@@ -60,24 +80,24 @@ struct Arg final : proto::serializable<Arg> {
 
 struct HelpEntry final : proto::serializable<HelpEntry> {
     std::string usage;
-    std::string description;
+    Description description;
 
     static void serialize(const HelpEntry &value, std::deque<uint8_t> &stream) {
         proto::string::serialize(value.usage, stream);
-        proto::string::serialize(value.description, stream);
+        Description::serialize(value.description, stream);
     }
 
     static HelpEntry deserialize(std::deque<uint8_t> &stream) {
         HelpEntry value{};
         value.usage = proto::string::deserialize(stream);
-        value.description = proto::string::deserialize(stream);
+        value.description = Description::deserialize(stream);
         return value;
     }
 };
 
 struct RegisterCommand final : proto::serializable<RegisterCommand> {
     std::string name;
-    std::string description;
+    Description description;
     std::string usage;
     std::vector<Arg> args;
     std::vector<std::string> contingentRules;
@@ -88,7 +108,7 @@ struct RegisterCommand final : proto::serializable<RegisterCommand> {
 
     static void serialize(const RegisterCommand &value, std::deque<uint8_t> &stream) {
         proto::string::serialize(value.name, stream);
-        proto::string::serialize(value.description, stream);
+        Description::serialize(value.description, stream);
         proto::string::serialize(value.usage, stream);
         proto::array<Arg>::serialize(value.args, stream);
         proto::array<proto::string>::serialize(value.contingentRules, stream);
@@ -101,7 +121,7 @@ struct RegisterCommand final : proto::serializable<RegisterCommand> {
     static RegisterCommand deserialize(std::deque<uint8_t> &stream) {
         RegisterCommand value{};
         value.name = proto::string::deserialize(stream);
-        value.description = proto::string::deserialize(stream);
+        value.description = Description::deserialize(stream);
         value.usage = proto::string::deserialize(stream);
         value.args = proto::array<Arg>::deserialize(stream);
         value.contingentRules = proto::array<proto::string>::deserialize(stream);
@@ -115,14 +135,14 @@ struct RegisterCommand final : proto::serializable<RegisterCommand> {
 
 struct RegisterRule final : proto::serializable<RegisterRule> {
     std::string identifier;
-    std::string description;
+    Description description;
     std::vector<std::string> contingentRules;
     std::vector<std::string> independentRules;
     std::string extensionName;
 
     static void serialize(const RegisterRule &value, std::deque<uint8_t> &stream) {
         proto::string::serialize(value.identifier, stream);
-        proto::string::serialize(value.description, stream);
+        Description::serialize(value.description, stream);
         proto::array<proto::string>::serialize(value.contingentRules, stream);
         proto::array<proto::string>::serialize(value.independentRules, stream);
         proto::string::serialize(value.extensionName, stream);
@@ -131,7 +151,7 @@ struct RegisterRule final : proto::serializable<RegisterRule> {
     static RegisterRule deserialize(std::deque<uint8_t> &stream) {
         RegisterRule value{};
         value.identifier = proto::string::deserialize(stream);
-        value.description = proto::string::deserialize(stream);
+        value.description = Description::deserialize(stream);
         value.contingentRules = proto::array<proto::string>::deserialize(stream);
         value.independentRules = proto::array<proto::string>::deserialize(stream);
         value.extensionName = proto::string::deserialize(stream);
