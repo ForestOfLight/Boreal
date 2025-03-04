@@ -3,8 +3,6 @@ An Endstone plugin for technical minecraft servers.
 
 Can run standalone, but also integrates with [Canopy](https://github.com/ForestOfLight/Canopy).
 
----
-
 ## Usage
 
 ### Tick Command
@@ -29,15 +27,14 @@ Shows the current tick speed.
 **Usage: `/flyspeed [multiplier: float]`**  
 Changes your fly speed. Defaults to 1 if the multiplier is unspecified.
 
----
-
-## Deps:
-
-https://github.com/kubo/funchook
-https://github.com/gdabah/distorm/
 
 ## Roadmap
 
-0. Integration with Canopy
-0. No-clip
-0. In-depth performance profiler
+1. Disable Player Simulation
+1. No-clip
+1. In-depth performance profiler
+
+## Dependencies:
+
+https://github.com/kubo/funchook  
+https://github.com/gdabah/distorm
