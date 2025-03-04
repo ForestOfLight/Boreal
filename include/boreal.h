@@ -14,6 +14,7 @@
 #include "lib/CanopyExtension.h"
 #include "hook.h"
 #include "TickCommandExecutor.h"
+#include "FlyspeedCommandExecutor.h"
 
 #include "PlayerQuitListener.h"
 
@@ -30,6 +31,10 @@ public:
         }
 
         this->canopyExtension = std::make_unique<CanopyExtension>(*this);
+      
+        if (auto *command = getCommand("flyspeed")) {
+            command->setExecutor(std::make_unique<FlyspeedCommandExecutor>());
+        }
 
         TickSpeed::logger = &getLogger();
         TickSpeed::server = &getServer();
