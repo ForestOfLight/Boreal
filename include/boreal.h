@@ -15,6 +15,8 @@
 #include "hook.h"
 #include "TickCommandExecutor.h"
 
+#include "PlayerQuitListener.h"
+
 class Boreal : public endstone::Plugin {
 public:
     std::unique_ptr<CanopyExtension> canopyExtension;
@@ -41,6 +43,9 @@ public:
         if (auto *command = getCommand("tick")){
             command->setExecutor(std::make_unique<TickCommandExecutor>());
         }
+
+        playerQuitListener = std::make_unique<PlayerQuitListener>(*this);
+        registerEvent(&PlayerQuitListener::onPlayerQuit, *playerQuitListener, endstone::EventPriority::High);
     }
 
     void onDisable() override
@@ -74,4 +79,7 @@ public:
     {
         getLogger().info("{} is passed to ExamplePlugin::onServerLoad", event.getEventName());
     }
+
+private:
+    std::unique_ptr<PlayerQuitListener> playerQuitListener;
 };

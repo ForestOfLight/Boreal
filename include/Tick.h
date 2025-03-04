@@ -1,6 +1,7 @@
 #pragma once
 
 #include <funchook.h>
+#include <endstone/event/player/player_quit_event.h>
 
 void (*minecraftAdvanceTicksFn)(void *timer, float advance);
 
@@ -8,6 +9,7 @@ class TickSpeed {
 public:
     static float targetTickRate;
     static bool isFrozen;
+    static endstone::CommandSender *freezeSender;
     static int stepTicks;
     static bool shouldStartStepping;
     static int sprintTicks;
@@ -26,11 +28,13 @@ public:
         }
     }
 
-    static void freeze() {
+    static void freeze(endstone::CommandSender &sender) {
+        freezeSender = &sender;
         isFrozen = true;
     }
 
     static void unfreeze() {
+        freezeSender = nullptr;
         isFrozen = false;
         if (targetTickRate == 0.0) {
             targetTickRate = 20.0;
@@ -83,6 +87,12 @@ public:
         return sprintTicks > 0;
     }
 
+    static void onPlayerQuit(endstone::PlayerQuitEvent &event) {
+        if (freezeSender != nullptr && event.getPlayer().getName() == freezeSender->getName()) {
+            unfreeze();
+        }
+    }
+
     static void hook(void *baseAddress, funchook_t *funchook);
 };
 
@@ -99,6 +109,9 @@ bool isDoneStepping(int32_t *realSprintTicks) {
 }
 
 void timerHook(void *timer, float advance) {
+    if (TickSpeed::server->getOnlinePlayers().empty()) {
+        TickSpeed::unfreeze();
+    }
     auto *realTickRate = reinterpret_cast<float *>(reinterpret_cast<char *>(timer) + 0x0);
     *realTickRate = TickSpeed::targetTickRate;
     if (TickSpeed::isFrozen) {
@@ -129,6 +142,7 @@ void timerHook(void *timer, float advance) {
 
 inline float TickSpeed::targetTickRate = 20.0;
 inline bool TickSpeed::isFrozen = false;
+inline endstone::CommandSender *TickSpeed::freezeSender = nullptr;
 inline int TickSpeed::stepTicks = 0;
 inline bool TickSpeed::shouldStartStepping = false;
 inline int TickSpeed::sprintTicks = 0;

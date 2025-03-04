@@ -77,8 +77,12 @@ private:
     }
 
     void freeze(endstone::CommandSender &sender) {
-        TickSpeed::freeze();
-        sender.sendMessage("§7The game is frozen.");
+        if (TickSpeed::isFrozen) {
+            unfreeze(sender);
+        } else {
+            TickSpeed::freeze(sender);
+            sender.sendMessage("§7The game is frozen.");
+        }
     }
 
     void unfreeze(endstone::CommandSender &sender) {
