@@ -6,7 +6,7 @@
 
 [![GitHub Downloads](https://img.shields.io/github/downloads/ForestOfLight/Boreal/total?label=Github%20downloads&logo=github)](https://github.com/ForestOfLight/Boreal/releases/latest)
 [![Curseforge Downloads](https://cf.way2muchnoise.eu/full_......._downloads.svg)](https://www.curseforge.com/minecraft-bedrock/addons/canopy)
-[![Minecraft - Version](https://img.shields.io/badge/Minecraft-v1.21.70_(Bedrock)-brightgreen)](https://feedback.minecraft.net/hc/en-us/sections/360001186971-Release-Changelogs)
+[![Minecraft - Version](https://img.shields.io/badge/Minecraft-v1.21.130_(Bedrock)-brightgreen)](https://feedback.minecraft.net/hc/en-us/sections/360001186971-Release-Changelogs)
 [![Discord](https://badgen.net/discord/members/9KGche8fxm?icon=discord&label=Discord&list=what)](https://discord.gg/9KGche8fxm)
 </div>
 
