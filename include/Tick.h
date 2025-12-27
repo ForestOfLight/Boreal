@@ -3,8 +3,8 @@
 #include <funchook.h>
 #include <endstone/event/player/player_quit_event.h>
 
-void (*minecraftAdvanceTicksFn)(void *timer, float advance);
 void (*minecraftLevelTickFn)(void *level);
+void (*minecraftServerInstanceUpdateFn)(void *serverInstance);
 
 class TickSpeed {
 public:
@@ -12,7 +12,7 @@ public:
     static bool isFrozen;
     static endstone::CommandSender *freezeSender;
     static int stepTicks;
-    static int sprintTicks;
+    static float sprintTicks;
     static bool shouldInterruptSprint;
     static std::chrono::time_point<std::chrono::system_clock> sprintStartDate;
 
@@ -72,15 +72,15 @@ public:
         int tps = static_cast<int>(1000.0 * completedTicks / msToCompletion);
         double mspt = (1.0*msToCompletion) / completedTicks;
         sprintTicks = 0;
-        std::string message = fmt::format("§7Sprint completed at {} tps ({} mspt).", tps, mspt);
+        std::string message = fmt::format("§7Sprint completed at {} tps ({:.1f} mspt).", tps, mspt);
         server->broadcastMessage(message);
     }
 
-    static bool shouldStartSprint(int32_t *realSprintTicks) {
+    static bool shouldStartSprint(float *realSprintTicks) {
         return *realSprintTicks == -1 && TickSpeed::sprintTicks > 0;
     }
 
-    static bool isDoneSprinting(int32_t *realSprintTicks) {
+    static bool isDoneSprinting(float *realSprintTicks) {
         return *realSprintTicks == 0 && TickSpeed::sprintTicks > 0;
     }
 
@@ -106,36 +106,42 @@ inline float TickSpeed::targetTickRate = 20.0;
 inline bool TickSpeed::isFrozen = false;
 inline endstone::CommandSender *TickSpeed::freezeSender = nullptr;
 inline int TickSpeed::stepTicks = 0;
-inline int TickSpeed::sprintTicks = 0;
+inline float TickSpeed::sprintTicks = 0;
 inline bool TickSpeed::shouldInterruptSprint = false;
 inline std::chrono::time_point<std::chrono::system_clock> TickSpeed::sprintStartDate;
 inline endstone::Server *TickSpeed::server;
 inline endstone::Logger *TickSpeed::logger;
 
-void timerHook(void *timer, float advance) {
-    auto *realTickRate = reinterpret_cast<float *>(reinterpret_cast<char *>(timer) + 0x0);
-    *realTickRate = TickSpeed::targetTickRate;
+void serverInstanceHook(void *serverInstance) {
+    auto* serverTimer = *reinterpret_cast<char**>(reinterpret_cast<char*>(serverInstance) + 0xD0);
+    auto* clientTimer = *reinterpret_cast<char**>(reinterpret_cast<char*>(serverInstance) + 0xD8);
+    auto* serverTickRate = reinterpret_cast<float*>(serverTimer + 0x0);
+    auto* clientTickRate = reinterpret_cast<float*>(clientTimer + 0x0);
+    *serverTickRate = TickSpeed::targetTickRate;
+    *clientTickRate = TickSpeed::targetTickRate;
     if (TickSpeed::isStepping()) {
-        *realTickRate = 20.0;
+        *serverTickRate = 20.0;
+        *clientTickRate = 20.0;
     } else if (TickSpeed::isFrozen) {
-        *realTickRate = 0.0;
+        *serverTickRate = 0.0;
+        *clientTickRate = 0.0;
     }
 
-    auto *realSprintTicks = reinterpret_cast<int32_t *>(reinterpret_cast<char *>(timer) + 0x3C);
-    if (TickSpeed::shouldStartSprint(realSprintTicks)) {
-        *realSprintTicks = TickSpeed::sprintTicks;
+    auto* serverSprintTicks = reinterpret_cast<float*>(serverTimer + 0x3C);
+    if (TickSpeed::shouldStartSprint(serverSprintTicks)) {
+        *serverSprintTicks = TickSpeed::sprintTicks;
     } else if (TickSpeed::shouldInterruptSprint) {
         TickSpeed::shouldInterruptSprint = false;
-        *realSprintTicks = -1;
-    } else if (TickSpeed::isDoneSprinting(realSprintTicks)) {
-        *realSprintTicks = -1;
+        *serverSprintTicks = -1;
+    } else if (TickSpeed::isDoneSprinting(serverSprintTicks)) {
+        *serverSprintTicks = -1;
         TickSpeed::finishSprint();
     }
 
-    if (*realSprintTicks == 0) {
-        *realSprintTicks = -1;
+    if (*serverSprintTicks == 0) {
+        *serverSprintTicks = -1;
     }
-    minecraftAdvanceTicksFn(timer, advance);
+    minecraftServerInstanceUpdateFn(serverInstance);
 }
 
 void tickHook(void *level) {
@@ -147,18 +153,19 @@ void tickHook(void *level) {
 
 inline void TickSpeed::hook(void *baseAddress, funchook_t *funchook) {
 #ifdef __GNUC__
-    void *tickAddr = (char *)baseAddress + 135866944; // address of "_ZN5Level4tickEv"
+    void *tickAddr = (char *)baseAddress + 162042432; // address of "_ZN5Level4tickEv"
+    void *serverInstanceAddr = (char *)baseAddress + 134948960; // address of "ServerInstance::_update(void* serverInstance)"
 #else
-    void *tpsAddr = (char *)baseAddress + 40916688; // address of "?advanceTime@Timer@@QEAAXM@Z"
-    void *tickAddr = (char *)baseAddress + 44663120; // address of "?tick@Level@@UEAAXXZ"
+    void *tickAddr = (char *)baseAddress + 67968608; // address of "?tick@Level@@UEAAXXZ"
+    void *serverInstanceAddr = (char *)baseAddress + 50846416; // address of "ServerInstance::_update(void* serverInstance)"
 #endif
-    minecraftAdvanceTicksFn = (void(*)(void*, float))tpsAddr;
-    int errorCode = funchook_prepare(funchook, (void **)&minecraftAdvanceTicksFn, timerHook);
+    minecraftLevelTickFn = (void(*)(void*))tickAddr;
+    int errorCode = funchook_prepare(funchook, (void **)&minecraftLevelTickFn, tickHook);
     if (errorCode) {
         logger->error("Failed to prepare hook: {}", funchook_error_message(funchook));
     }
-    minecraftLevelTickFn = (void(*)(void*))tickAddr;
-    errorCode = funchook_prepare(funchook, (void **)&minecraftLevelTickFn, tickHook);
+    minecraftServerInstanceUpdateFn = (void(*)(void*))serverInstanceAddr;
+    errorCode = funchook_prepare(funchook, (void **)&minecraftServerInstanceUpdateFn, serverInstanceHook);
     if (errorCode) {
         logger->error("Failed to prepare hook: {}", funchook_error_message(funchook));
     }
