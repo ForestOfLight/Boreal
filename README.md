@@ -28,7 +28,7 @@ Starts or stops the tick speed.
 Makes the tick speed run for a few ticks while frozen. Defaults to 1 if the number of steps is unspecified.
 
 **Usage: `/tick sprint <num: int>`**  
-Makes the tick speed run as fast as possible for the desired number of ticks.
+Makes the tick speed run as fast as possible for the desired number of ticks. Use `/tick sprint 0` to interrupt the current sprint.
 
 **Usage: `/tick query`**  
 Shows the current tick speed.
@@ -38,9 +38,17 @@ Shows the current tick speed.
 **Usage: `/flyspeed [multiplier: float]`**  
 Changes your fly speed. Defaults to 1 if the multiplier is unspecified.
 
+## Supported Versions
+
+| Minecraft Version | Boreal Version |
+|-------------------|----------------|
+| 1.21.130          | v0.1.1         |
+| 1.21.80           | v0.1.0         |
 
 ## Roadmap
 
+1. /tick command
+1. Flyspeed control
 1. Disable Player Simulation
 1. No-clip
 1. In-depth performance profiler

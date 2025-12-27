@@ -112,10 +112,10 @@ private:
     }
 
     void sprint(endstone::CommandSender &sender, const std::vector<std::string> &args) {
-        int ticks = 1;
+        float ticks = 1.0;
         int minAllowed = 0;
         if (args.size() > 1) {
-            ticks = std::stoi(args[1]);
+            ticks = std::stof(args[1]);
         }
         if (ticks < minAllowed) {
             plugin.getServer().broadcastMessage("§cThe tick count must not be less than {}, found {}.", minAllowed, ticks);
