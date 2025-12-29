@@ -4,16 +4,15 @@
 #include <string>
 
 class FlyspeedCommandExecutor : public endstone::CommandExecutor {
+    float VANILLA_FLY_SPEED = 0.05f;
 public:
     bool onCommand(endstone::CommandSender &sender, const endstone::Command &command,
              const std::vector<std::string> &args) override {
-        if (args.size() == 0) {
-            sender.sendMessage("Flyspeed set to default");
-            sender.asPlayer()->setFlySpeed(0.05f);
-            return true;
-        }
-        sender.sendMessage("Flyspeed set to: " + args[0] + "x");
-        sender.asPlayer()->setFlySpeed(std::stof(args[0]) * 0.05);
+        float flightSpeedMultiplier = 1;
+        if (!args.empty())
+            flightSpeedMultiplier = std::stof(args[0]);
+        sender.sendMessage("Flight speed multiplier set to " + args[0] + "x");
+        sender.asPlayer()->setFlySpeed(flightSpeedMultiplier * VANILLA_FLY_SPEED);
         return true;
     }
 };
