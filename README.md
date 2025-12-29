@@ -9,9 +9,10 @@
 [![Discord](https://badgen.net/discord/members/9KGche8fxm?icon=discord&label=Discord&list=what)](https://discord.gg/9KGche8fxm)
 </div>
 
-An Endstone plugin for technical minecraft servers.
+An Endstone plugin for Technical Minecraft servers, specifically meant to fill in feature gaps in 
+**[Canopy](https://github.com/ForestOfLight/Canopy)** created by a lack of access in the vanilla [Script API for Behavior Packs](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/?view=minecraft-bedrock-stable).
 
-Can run standalone, but also integrates with [Canopy](https://github.com/ForestOfLight/Canopy).
+Can run standalone, but also integrates with **[Canopy](https://github.com/ForestOfLight/Canopy)**.
 
 ## Usage
 
@@ -35,7 +36,7 @@ Shows the current tick speed.
 ### Flyspeed Command
 
 **Usage: `/flyspeed [multiplier: float]`**  
-Changes your fly speed. Defaults to 1 if the multiplier is unspecified.
+Changes your creative mode flight speed. Defaults to 1 if the multiplier is unspecified.
 
 ## Supported Versions
 
@@ -47,10 +48,12 @@ Changes your fly speed. Defaults to 1 if the multiplier is unspecified.
 ## Roadmap
 
 - [x] /tick Command
-- [x] Flight Speed Control
+- [x] Horizontal Flight Speed Control
+- [ ] Vertical Flight Speed Control
 - [ ] Disable Player Simulation
 - [ ] No-clip
 - [ ] In-depth performance profiler
+- [ ] Piston push limit
 
 ## Dependencies:
 
