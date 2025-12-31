@@ -3,7 +3,7 @@
 #include <endstone/command/command_executor.h>
 #include <string>
 
-class FlyspeedCommandExecutor : public endstone::CommandExecutor {
+class FlySpeedCommandExecutor : public endstone::CommandExecutor {
     float VANILLA_FLY_SPEED = 0.05f;
 public:
     bool onCommand(endstone::CommandSender &sender, const endstone::Command &command,

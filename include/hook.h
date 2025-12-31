@@ -2,6 +2,7 @@
 
 #include <funchook.h>
 #include "Tick.h"
+#include "PlayersTickLevelChunks.h"
 
 #if defined(__GNUC__) 
     void *getAddr(){
@@ -68,6 +69,7 @@ int install_hooks(void *baseAddress)
     funchook_t *funchook = funchook_create();
 
     TickSpeed::hook(baseAddress, funchook);
+    PlayersTickLevelChunks::hook(baseAddress, funchook);
 
     /* Install hooks.
 	 * The first 5-byte code of tick() and recv() are changed respectively.
