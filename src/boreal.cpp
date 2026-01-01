@@ -34,7 +34,12 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.1", /*main_class=*/Boreal)
 
     command("loadnearbychunks")
         .description("Enables/disables player chunk loading")
-        .usages("/loadnearbychunks <a: bool>")
+        .usages("/loadnearbychunks <shouldLoad: bool>")
+        .permissions("boreal.command.op");
+
+    command("pistonpushlimit")
+        .description("Sets the piston push limit")
+        .usages("/pistonpushlimit [n: int]")
         .permissions("boreal.command.op");
 
     permission("boreal.command")

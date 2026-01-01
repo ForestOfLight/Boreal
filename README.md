@@ -42,6 +42,10 @@ Changes your creative mode flight speed. Defaults to 1 if the multiplier is unsp
 **Usage: `/loadnearbychunks [shouldLoad: bool]`**
 Toggles whether chunks nearby the player are ticked. Defaults to true if the parameter is unspecified.
 
+## Piston Push Limit
+**Usage: `/pistonpushlimit [n: int]`**
+Changes the maximum number of blocks a piston can push. If the parameter is unspecified, it displays the current push limit.
+
 ## Supported Versions
 
 | Minecraft Version | Boreal Version |
@@ -57,4 +61,4 @@ Toggles whether chunks nearby the player are ticked. Defaults to true if the par
 - [x] Disable Players Ticking Nearby Chunks
 - [ ] No-clip
 - [ ] In-depth performance profiler
-- [ ] Piston push limit
+- [x] Piston push limit

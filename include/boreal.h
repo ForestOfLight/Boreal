@@ -16,6 +16,7 @@
 #include "TickCommandExecutor.h"
 #include "FlyspeedCommandExecutor.h"
 #include "LoadNearbyChunksCommandExecutor.h"
+#include "PistonPushLimitCommandExecutor.h"
 
 #include "PlayerQuitListener.h"
 
@@ -46,6 +47,11 @@ public:
         PlayersTickLevelChunks::logger = &getLogger();
         if (auto *command = getCommand("loadnearbychunks")) {
             command->setExecutor(std::make_unique<LoadNearbyChunksCommandExecutor>());
+        }
+
+        PistonPushLimit::logger = &getLogger();
+        if (auto *command = getCommand("pistonpushlimit")) {
+            command->setExecutor(std::make_unique<PistonPushLimitCommandExecutor>());
         }
 
         playerQuitListener = std::make_unique<PlayerQuitListener>(*this);

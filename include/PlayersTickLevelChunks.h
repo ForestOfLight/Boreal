@@ -3,7 +3,6 @@
 
 void (*_determineLevelChunksToTick)(void *actor, void *blockSource, void *loadedChunksComponent,
                                     void *chunksToTickVector, void *chunksToTickBlockEntitiesVector, void *currentTick);
-void (*getActorUniqueIDComponent)(void *actor, int64_t *outComponent);
 
 class PlayersTickLevelChunks {
 public:
