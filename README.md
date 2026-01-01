@@ -14,9 +14,9 @@ An Endstone plugin for Technical Minecraft servers, specifically meant to fill i
 
 Can run standalone, but also integrates with **[Canopy](https://github.com/ForestOfLight/Canopy)**.
 
-## Usage
+## Commands
 
-### Tick Command
+### Tick
 
 **Usage: `/tick rate <tps: float>`**  
 Changes the world's tick speed.
@@ -33,10 +33,14 @@ Makes the tick speed run as fast as possible for the desired number of ticks. Us
 **Usage: `/tick query`**  
 Shows the current tick speed.
 
-### Flyspeed Command
+### Flyspeed
 
 **Usage: `/flyspeed [multiplier: float]`**  
 Changes your creative mode flight speed. Defaults to 1 if the multiplier is unspecified.
+
+### Load Nearby Chunks
+**Usage: `/loadnearbychunks [shouldLoad: bool]`**
+Toggles whether chunks nearby the player are ticked. Defaults to true if the parameter is unspecified.
 
 ## Supported Versions
 
@@ -50,12 +54,7 @@ Changes your creative mode flight speed. Defaults to 1 if the multiplier is unsp
 - [x] /tick Command
 - [x] Horizontal Flight Speed Control
 - [ ] Vertical Flight Speed Control
-- [ ] Disable Player Simulation
+- [x] Disable Players Ticking Nearby Chunks
 - [ ] No-clip
 - [ ] In-depth performance profiler
 - [ ] Piston push limit
-
-## Dependencies:
-
-https://github.com/kubo/funchook  
-https://github.com/gdabah/distorm
