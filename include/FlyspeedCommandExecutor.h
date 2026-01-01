@@ -11,7 +11,7 @@ public:
         float flightSpeedMultiplier = 1;
         if (!args.empty())
             flightSpeedMultiplier = std::stof(args[0]);
-        sender.sendMessage("Flight speed multiplier set to " + args[0] + "x");
+        sender.sendMessage("Flight speed multiplier set to " + fmt::format("{}", flightSpeedMultiplier) + "x");
         sender.asPlayer()->setFlySpeed(flightSpeedMultiplier * VANILLA_FLY_SPEED);
         return true;
     }
