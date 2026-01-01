@@ -15,7 +15,7 @@
 #include "hook.h"
 #include "TickCommandExecutor.h"
 #include "FlyspeedCommandExecutor.h"
-#include "LoadChunksCommandExecutor.h"
+#include "LoadNearbyChunksCommandExecutor.h"
 
 #include "PlayerQuitListener.h"
 
@@ -44,8 +44,8 @@ public:
         }
 
         PlayersTickLevelChunks::logger = &getLogger();
-        if (auto *command = getCommand("loadchunks")) {
-            command->setExecutor(std::make_unique<LoadChunksCommandExecutor>());
+        if (auto *command = getCommand("loadnearbychunks")) {
+            command->setExecutor(std::make_unique<LoadNearbyChunksCommandExecutor>());
         }
 
         playerQuitListener = std::make_unique<PlayerQuitListener>(*this);

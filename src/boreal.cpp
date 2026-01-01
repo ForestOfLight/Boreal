@@ -32,9 +32,9 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.1", /*main_class=*/Boreal)
         .aliases("fs")
         .permissions("boreal.command.op");
 
-    command("loadchunks")
+    command("loadnearbychunks")
         .description("Enables/disables player chunk loading")
-        .usages("/loadchunks <a: bool>")
+        .usages("/loadnearbychunks <a: bool>")
         .permissions("boreal.command.op");
 
     permission("boreal.command")
