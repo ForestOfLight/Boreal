@@ -36,7 +36,7 @@ Shows the current tick speed.
 ### Flyspeed
 
 **Usage: `/flyspeed [multiplier: float]`**  
-Changes your creative mode flight speed. Defaults to 1 if the multiplier is unspecified.
+Changes your creative mode flight speed. Shows your current flight speed multiplier if the multiplier is unspecified.
 
 ### Load Nearby Chunks
 **Usage: `/loadnearbychunks [shouldLoad: bool]`**
