@@ -64,7 +64,7 @@ private:
 
     void setRate(endstone::CommandSender &sender, const std::vector<std::string> &args) {
         float minRate = 0;
-        float maxRate = 1000;
+        float maxRate = 100000;
         float rate = std::stof(args[1]);
         if (rate <= minRate) {
             sender.sendMessage("§cThe tick rate must not be less than or equal to {:.1f}, found {}.", minRate, rate);
