@@ -3,17 +3,18 @@
 #include <endstone/command/command_executor.h>
 #include <string>
 
-class FlyspeedCommandExecutor : public endstone::CommandExecutor {
+class FlySpeedCommandExecutor : public endstone::CommandExecutor {
+    float VANILLA_FLY_SPEED = 0.05f;
 public:
     bool onCommand(endstone::CommandSender &sender, const endstone::Command &command,
              const std::vector<std::string> &args) override {
-        if (args.size() == 0) {
-            sender.sendMessage("Flyspeed set to default");
-            sender.asPlayer()->setFlySpeed(0.05f);
-            return true;
+        float flightSpeedMultiplier = sender.asPlayer()->getFlySpeed() * 20;
+        if (!args.empty()) {
+            flightSpeedMultiplier = std::stof(args[0]) >= 0 ? std::stof(args[0]) : 1;
+            sender.sendMessage("Flight speed multiplier set to " + fmt::format("{}", flightSpeedMultiplier) + "x");
+            sender.asPlayer()->setFlySpeed(flightSpeedMultiplier * VANILLA_FLY_SPEED);
         }
-        sender.sendMessage("Flyspeed set to: " + args[0] + "x");
-        sender.asPlayer()->setFlySpeed(std::stof(args[0]) * 0.05);
+        else sender.sendMessage("Current flight speed multiplier is " + fmt::format("{}", flightSpeedMultiplier)+ "x");
         return true;
     }
 };

@@ -113,8 +113,8 @@ inline endstone::Server *TickSpeed::server;
 inline endstone::Logger *TickSpeed::logger;
 
 void serverInstanceHook(void *serverInstance) {
-    auto* serverTimer = *reinterpret_cast<char**>(reinterpret_cast<char*>(serverInstance) + 0xD0);
-    auto* clientTimer = *reinterpret_cast<char**>(reinterpret_cast<char*>(serverInstance) + 0xD8);
+    auto* serverTimer = *reinterpret_cast<char**>(reinterpret_cast<char*>(serverInstance) + 0xE0);
+    auto* clientTimer = *reinterpret_cast<char**>(reinterpret_cast<char*>(serverInstance) + 0xE8);
     auto* serverTickRate = reinterpret_cast<float*>(serverTimer + 0x0);
     auto* clientTickRate = reinterpret_cast<float*>(clientTimer + 0x0);
     *serverTickRate = TickSpeed::targetTickRate;
@@ -153,11 +153,11 @@ void tickHook(void *level) {
 
 inline void TickSpeed::hook(void *baseAddress, funchook_t *funchook) {
 #ifdef __GNUC__
-    void *tickAddr = (char *)baseAddress + 162042432; // address of "_ZN5Level4tickEv"
-    void *serverInstanceAddr = (char *)baseAddress + 134948960; // address of "ServerInstance::_update(void* serverInstance)"
+    void *tickAddr = (char *)baseAddress + ?; // address of "_ZN5Level4tickEv"
+    void *serverInstanceAddr = (char *)baseAddress + ?; // address of "ServerInstance::_update(void* serverInstance)"
 #else
-    void *tickAddr = (char *)baseAddress + 67968608; // address of "?tick@Level@@UEAAXXZ"
-    void *serverInstanceAddr = (char *)baseAddress + 50846416; // address of "ServerInstance::_update(void* serverInstance)"
+    void *tickAddr = (char *)baseAddress + 69835664; // address of "?tick@Level@@UEAAXXZ"
+    void *serverInstanceAddr = (char *)baseAddress + 49028144; // address of "ServerInstance::_update(void* serverInstance)"
 #endif
     minecraftLevelTickFn = (void(*)(void*))tickAddr;
     int errorCode = funchook_prepare(funchook, (void **)&minecraftLevelTickFn, tickHook);

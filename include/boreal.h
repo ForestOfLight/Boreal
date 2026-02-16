@@ -15,6 +15,8 @@
 #include "hook.h"
 #include "TickCommandExecutor.h"
 #include "FlyspeedCommandExecutor.h"
+#include "LoadNearbyChunksCommandExecutor.h"
+#include "PistonPushLimitCommandExecutor.h"
 
 #include "PlayerQuitListener.h"
 
@@ -31,15 +33,25 @@ public:
         }
 
         this->canopyExtension = std::make_unique<CanopyExtension>(*this);
-      
-        if (auto *command = getCommand("flyspeed")) {
-            command->setExecutor(std::make_unique<FlyspeedCommandExecutor>());
-        }
 
         TickSpeed::logger = &getLogger();
         TickSpeed::server = &getServer();
         if (auto *command = getCommand("tick")){
             command->setExecutor(std::make_unique<TickCommandExecutor>(*this));
+        }
+
+        if (auto *command = getCommand("flyspeed")) {
+            command->setExecutor(std::make_unique<FlySpeedCommandExecutor>());
+        }
+
+        PlayersTickLevelChunks::logger = &getLogger();
+        if (auto *command = getCommand("loadnearbychunks")) {
+            command->setExecutor(std::make_unique<LoadNearbyChunksCommandExecutor>());
+        }
+
+        PistonPushLimit::logger = &getLogger();
+        if (auto *command = getCommand("pistonpushlimit")) {
+            command->setExecutor(std::make_unique<PistonPushLimitCommandExecutor>());
         }
 
         playerQuitListener = std::make_unique<PlayerQuitListener>(*this);
