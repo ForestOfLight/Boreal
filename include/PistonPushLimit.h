@@ -25,7 +25,7 @@ public:
 inline int PistonPushLimit::pistonPushLimit = VANILLA_PISTON_PUSH_LIMIT;
 inline endstone::Logger *PistonPushLimit::logger;
 
-const int64_t mAttachedBlocksOffset = 0xB0; // offset of "std::vector<BlockPos> mAttachedBlocks" in PistonBlockActor
+const int64_t mAttachedBlocksOffset = 0xD0; // offset of "std::vector<BlockPos> mAttachedBlocks" in PistonBlockActor
 
 bool checkAttachedBlocksHook(void *pistonBlockActor, void *blockSource) {
     _checkAttachedBlocks(pistonBlockActor, blockSource);
@@ -42,7 +42,7 @@ inline void PistonPushLimit::hook(void *baseAddress, funchook_t *funchook) {
 #ifdef __GNUC__
     void *_checkAttachedBlocksAddr = (char *)baseAddress + ?; // address of "?"
 #else
-    void *_checkAttachedBlocksAddr = (char *)baseAddress + 71861632; // address of "PistonBlockActor::_checkAttachedBlocks"
+    void *_checkAttachedBlocksAddr = (char *)baseAddress + 73618064; // address of "PistonBlockActor::_checkAttachedBlocks"
 #endif
     _checkAttachedBlocks = (bool(*)(void*, void*))_checkAttachedBlocksAddr;
     int errorCode = funchook_prepare(funchook, (void **)&_checkAttachedBlocks, checkAttachedBlocksHook);

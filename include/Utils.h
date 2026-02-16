@@ -7,15 +7,14 @@ extern void* getBaseAddress();
 
 class Utils {
 public:
-    static int64_t getUniqueIDFromActorPtr(void *actor) {
-        using GetActorUniqueIDComponentFn = int64_t *(__fastcall*)(void *actor, int64_t *out);
+    static int64_t getUniqueIDFromActorPtr(void *actor, endstone::Logger *logger) {
+        using GetActorUniqueIDComponentFn = int64_t *(__fastcall*)(void *actor);
         void *baseAddress = getBaseAddress();
         GetActorUniqueIDComponentFn getActorUniqueIDComponent =
-            (GetActorUniqueIDComponentFn)((char*)baseAddress + 57003088); // address of "Actor::getPersistentComponent<ActorUniqueIDComponent>"
-        int64_t actorUniqueIDComponentPtr = 0LL;
-        getActorUniqueIDComponent(actor, &actorUniqueIDComponentPtr);
+            (GetActorUniqueIDComponentFn)((char*)baseAddress + 59202864); // address of "Actor::getOrCreateUniqueID"
+        int64_t *actorUniqueIDComponentPtr = getActorUniqueIDComponent(actor);
         if (actorUniqueIDComponentPtr) {
-            return *reinterpret_cast<int64_t *>(actorUniqueIDComponentPtr);
+            return *actorUniqueIDComponentPtr;
         }
         return -1;
     }
