@@ -14,7 +14,7 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.2", /*main_class=*/Boreal)
     prefix = "Boreal";
     description = "Canopy Extension for Endstone";
     website = "https://github.com/ForestOfLight/Boreal";
-    authors = {"R2leyser", "ForestOfLight"};
+    authors = {"ForestOfLight", "R2leyser", "Nipitare"};
 
     command("tick")
         .description("Controls the tick rate of the game")
