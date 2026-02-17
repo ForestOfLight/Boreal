@@ -60,6 +60,7 @@ Changes the maximum number of blocks a piston can push. If the parameter is unsp
 - [x] Horizontal Flight Speed Control
 - [ ] Vertical Flight Speed Control
 - [x] Disable Players Ticking Nearby Chunks
-- [ ] No-clip
-- [ ] In-depth performance profiler
-- [x] Piston push limit
+- [ ] No-Clip
+- [ ] In-Depth Performance Profiler
+- [x] Piston Push Limit
+- [x] Force Open Containers
