@@ -2,6 +2,7 @@
 
 #include <funchook.h>
 
+#include "ForceOpenContainers.h"
 #include "Tick.h"
 #include "PlayersTickLevelChunks.h"
 #include "PistonPushLimit.h"
@@ -73,6 +74,7 @@ int install_hooks(void *baseAddress)
     TickSpeed::hook(baseAddress, funchook);
     PlayersTickLevelChunks::hook(baseAddress, funchook);
     PistonPushLimit::hook(baseAddress, funchook);
+    ForceOpenContainers::hook(baseAddress, funchook);
 
     /* Install hooks.
 	 * The first 5-byte code of tick() and recv() are changed respectively.

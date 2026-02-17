@@ -7,7 +7,7 @@ extern void* getBaseAddress();
 
 class Utils {
 public:
-    static int64_t getUniqueIDFromActorPtr(void *actor, endstone::Logger *logger) {
+    static int64_t getUniqueIDFromActorPtr(void *actor) {
         using GetActorUniqueIDComponentFn = int64_t *(__fastcall*)(void *actor);
         void *baseAddress = getBaseAddress();
         GetActorUniqueIDComponentFn getActorUniqueIDComponent =

@@ -35,7 +35,7 @@ void tickLevelChunksAroundActorHook(void *actor, void *blockSource, void *loaded
                                     void *chunksToTickVector, void *chunksToTickBlockEntitiesVector, void *currentTick) {
     _determineLevelChunksToTick(actor, blockSource, loadedChunksComponent,
         chunksToTickVector, chunksToTickBlockEntitiesVector, currentTick);
-    int64_t actorUniqueID = Utils::getUniqueIDFromActorPtr(actor, PlayersTickLevelChunks::logger);
+    int64_t actorUniqueID = Utils::getUniqueIDFromActorPtr(actor);
     if (!PlayersTickLevelChunks::shouldBeLoadingChunks(actorUniqueID))
         reinterpret_cast<std::vector<void *> *>(chunksToTickVector)->clear();
 }

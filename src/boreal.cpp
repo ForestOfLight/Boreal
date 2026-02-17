@@ -42,6 +42,11 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.2", /*main_class=*/Boreal)
         .usages("/pistonpushlimit [n: int]")
         .permissions("boreal.command.op");
 
+    command("forceopen")
+        .description("Globally allows players to force open containers")
+        .usages("/forceopen <enable: bool>")
+        .permissions("boreal.command.op");
+
     permission("boreal.command")
         .description("Allow users to use all commands provided by this plugin")
         .children("boreal.command.op", true);

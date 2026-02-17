@@ -15,6 +15,7 @@
 #include "hook.h"
 #include "TickCommandExecutor.h"
 #include "FlyspeedCommandExecutor.h"
+#include "ForceOpenCommandExecutor.h"
 #include "LoadNearbyChunksCommandExecutor.h"
 #include "PistonPushLimitCommandExecutor.h"
 
@@ -52,6 +53,11 @@ public:
         PistonPushLimit::logger = &getLogger();
         if (auto *command = getCommand("pistonpushlimit")) {
             command->setExecutor(std::make_unique<PistonPushLimitCommandExecutor>());
+        }
+
+        ForceOpenContainers::logger = &getLogger();
+        if (auto *command = getCommand("forceopen")) {
+            command->setExecutor(std::make_unique<ForceOpenCommandExecutor>());
         }
 
         playerQuitListener = std::make_unique<PlayerQuitListener>(*this);
