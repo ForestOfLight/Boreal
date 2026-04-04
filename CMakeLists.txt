@@ -16,7 +16,7 @@ FetchContent_MakeAvailable(endstone)
 FetchContent_Declare(
         EnTT
         GIT_REPOSITORY https://github.com/skypjack/entt.git
-        GIT_TAG        fe8d7d78c4823e8a66a050bf86f5c6318cf76ce7 # Minecraft 1.21.90+
+        GIT_TAG        fe8d7d78c4823e8a66a050bf86f5c6318cf76ce7
 )
 
 FetchContent_MakeAvailable(EnTT)
