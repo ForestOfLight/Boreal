@@ -50,9 +50,9 @@ Changes the maximum number of blocks a piston can push. If the parameter is unsp
 
 | Minecraft Version | Boreal Version |
 |-------------------|----------------|
-| 26.0              | v0.1.2         |
-| 1.21.130          | v0.1.1         |
-| 1.21.80           | v0.1.0         |
+| 1.26.0.2          | v0.1.2         |
+| 1.21.130.3        | v0.1.1         |
+| 1.21.80.3         | v0.1.0         |
 
 ## Roadmap
 
