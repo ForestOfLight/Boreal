@@ -44,7 +44,7 @@ inline void PlayersTickLevelChunks::hook(void *baseAddress, funchook_t *funchook
 #ifdef __GNUC__
     void *_determineLevelChunksToTickAddr = (char *)baseAddress + ?; // address of "?"
 #else
-    void *_determineLevelChunksToTickAddr = (char *)baseAddress + 23320496; // address of "LevelChunkTickingSystem::_determineLevelChunksToTick"
+    void *_determineLevelChunksToTickAddr = (char *)baseAddress + 16550464; // address of "LevelChunkTickingSystem::_determineLevelChunksToTick"
 #endif
     _determineLevelChunksToTick = (void(*)(void*, void*, void*, void*, void*, void*))_determineLevelChunksToTickAddr;
     int errorCode = funchook_prepare(funchook, (void **)&_determineLevelChunksToTick, tickLevelChunksAroundActorHook);

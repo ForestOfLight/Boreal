@@ -33,7 +33,7 @@ inline void ForceOpenContainers::hook(void *baseAddress, funchook_t *funchook) {
 #ifdef __GNUC__
     void *_canOpenThisAddr = (char *)baseAddress + ?; // address of "?"
 #else
-    void *_canOpenThisAddr = (char *)baseAddress + 72810608; // address of "ChestBlockActor::_canOpenThis"
+    void *_canOpenThisAddr = (char *)baseAddress + 68241344; // address of "ChestBlockActor::_canOpenThis"
 #endif
     _canOpenThis = (bool(*)(void*, void*))_canOpenThisAddr;
     int errorCode = funchook_prepare(funchook, (void **)&_canOpenThis, canOpenThisHook);
