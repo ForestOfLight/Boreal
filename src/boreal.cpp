@@ -9,7 +9,7 @@
 #include <unordered_map>
 
 // The ENDSTONE_PLUGIN macro defines the metadata for the plugin.
-ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.2", /*main_class=*/Boreal)
+ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.3", /*main_class=*/Boreal)
 {
     prefix = "Boreal";
     description = "Canopy Extension for Endstone";
