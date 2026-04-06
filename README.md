@@ -5,7 +5,7 @@
     <p><b>Boreal</b></p>
 
 [![GitHub Downloads](https://img.shields.io/github/downloads/ForestOfLight/Boreal/total?label=Github%20downloads&logo=github)](https://github.com/ForestOfLight/Boreal/releases/latest)
-[![Minecraft - Version](https://img.shields.io/badge/Minecraft-v26.0_(Bedrock)-brightgreen)](https://feedback.minecraft.net/hc/en-us/sections/360001186971-Release-Changelogs)
+[![Minecraft - Version](https://img.shields.io/badge/Minecraft-v26.12_(Bedrock)-brightgreen)](https://feedback.minecraft.net/hc/en-us/sections/360001186971-Release-Changelogs)
 [![Discord](https://badgen.net/discord/members/9KGche8fxm?icon=discord&label=Discord&list=what)](https://discord.gg/9KGche8fxm)
 </div>
 
@@ -46,13 +46,19 @@ Toggles whether chunks nearby the player are ticked. Defaults to true if the par
 **Usage: `/pistonpushlimit [n: int]`**
 Changes the maximum number of blocks a piston can push. If the parameter is unspecified, it displays the current push limit.
 
+## Force Open
+**Usage: `/forceopen [enable: bool]`**  
+Allows all players to open all containers, even if the container would normally be blocked from opening.
+
 ## Supported Versions
+Please use Boreal with its corresponding Minecraft version.
 
 | Minecraft Version | Boreal Version |
 |-------------------|----------------|
-| 26.0              | v0.1.2         |
-| 1.21.130          | v0.1.1         |
-| 1.21.80           | v0.1.0         |
+| 1.26.12.2         | v0.1.3         |
+| 1.26.0.2          | v0.1.2         |
+| 1.21.130.3        | v0.1.1         |
+| 1.21.80.3         | v0.1.0         |
 
 ## Roadmap
 
@@ -60,6 +66,7 @@ Changes the maximum number of blocks a piston can push. If the parameter is unsp
 - [x] Horizontal Flight Speed Control
 - [ ] Vertical Flight Speed Control
 - [x] Disable Players Ticking Nearby Chunks
-- [ ] No-clip
-- [ ] In-depth performance profiler
-- [x] Piston push limit
+- [ ] No-Clip
+- [ ] In-Depth Performance Profiler
+- [x] Piston Push Limit
+- [x] Force Open Containers

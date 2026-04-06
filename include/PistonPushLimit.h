@@ -42,7 +42,7 @@ inline void PistonPushLimit::hook(void *baseAddress, funchook_t *funchook) {
 #ifdef __GNUC__
     void *_checkAttachedBlocksAddr = (char *)baseAddress + ?; // address of "?"
 #else
-    void *_checkAttachedBlocksAddr = (char *)baseAddress + 73618064; // address of "PistonBlockActor::_checkAttachedBlocks"
+    void *_checkAttachedBlocksAddr = (char *)baseAddress + 69036224; // address of "PistonBlockActor::_checkAttachedBlocks"
 #endif
     _checkAttachedBlocks = (bool(*)(void*, void*))_checkAttachedBlocksAddr;
     int errorCode = funchook_prepare(funchook, (void **)&_checkAttachedBlocks, checkAttachedBlocksHook);
