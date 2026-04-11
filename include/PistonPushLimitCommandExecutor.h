@@ -24,6 +24,8 @@ public:
         }
         if (newPushLimit < 0)
             newPushLimit = 0;
+        if (newPushLimit > 255)
+            newPushLimit = 255;
         PistonPushLimit::setPistonPushLimit(newPushLimit);
         sender.sendMessage(fmt::format("Piston push limit is now {}.", newPushLimit));
         return true;

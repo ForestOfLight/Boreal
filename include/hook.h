@@ -73,7 +73,7 @@ int install_hooks(void *baseAddress)
 
     TickSpeed::hook(baseAddress, funchook);
     PlayersTickLevelChunks::hook(baseAddress, funchook);
-    PistonPushLimit::hook(baseAddress, funchook);
+    PistonPushLimit::install(baseAddress);
     ForceOpenContainers::hook(baseAddress, funchook);
 
     /* Install hooks.

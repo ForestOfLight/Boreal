@@ -27,12 +27,6 @@ public:
 
     void onEnable() override
     {
-        void * baseAddress = getBaseAddress();
-        int rv = install_hooks(baseAddress);
-        if (rv != 0){
-            getLogger().error("Failed to install hooks.");
-        }
-
         this->canopyExtension = std::make_unique<CanopyExtension>(*this);
 
         TickSpeed::logger = &getLogger();
@@ -62,6 +56,12 @@ public:
 
         playerQuitListener = std::make_unique<PlayerQuitListener>(*this);
         registerEvent(&PlayerQuitListener::onPlayerQuit, *playerQuitListener, endstone::EventPriority::High);
+
+        void * baseAddress = getBaseAddress();
+        int rv = install_hooks(baseAddress);
+        if (rv != 0){
+            getLogger().error("Failed to install hooks.");
+        }
     }
 
     bool onCommand(endstone::CommandSender &sender, const endstone::Command &command,
