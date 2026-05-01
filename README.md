@@ -38,17 +38,25 @@ Shows the current tick speed.
 **Usage: `/flyspeed [multiplier: float]`**  
 Changes your creative mode flight speed. Shows your current flight speed multiplier if the multiplier is unspecified.
 
-### Load Nearby Chunks
-**Usage: `/loadnearbychunks [shouldLoad: bool]`**
-Toggles whether chunks nearby the player are ticked. Defaults to true if the parameter is unspecified.
+### No Clip
 
-## Piston Push Limit
+**Usage: `/noclip [enable|disable]`**  
+Allows you to pass through blocks when flying in creative mode.
+
+### Force Open
+
+**Usage: `/forceopen [enable: bool]`**  
+Allows all players to open all containers, even if the container would normally be blocked from opening.
+
+### Piston Push Limit
+
 **Usage: `/pistonpushlimit [n: int]`**
 Changes the maximum number of blocks a piston can push. If the parameter is unspecified, it displays the current push limit.
 
-## Force Open
-**Usage: `/forceopen [enable: bool]`**  
-Allows all players to open all containers, even if the container would normally be blocked from opening.
+### Load Nearby Chunks
+
+**Usage: `/loadnearbychunks [shouldLoad: bool]`**
+Toggles whether chunks nearby the player are ticked. Defaults to true if the parameter is unspecified.
 
 ## Supported Versions
 Please use Boreal with its corresponding Minecraft version.
@@ -66,7 +74,7 @@ Please use Boreal with its corresponding Minecraft version.
 - [x] Horizontal Flight Speed Control
 - [ ] Vertical Flight Speed Control
 - [x] Disable Players Ticking Nearby Chunks
-- [ ] No-Clip
+- [x] No-Clip
 - [ ] In-Depth Performance Profiler
 - [x] Piston Push Limit
 - [x] Force Open Containers

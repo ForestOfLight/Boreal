@@ -149,6 +149,7 @@ void tickHook(void *level) {
         TickSpeed::stepTicks--;
     }
     minecraftLevelTickFn(level);
+    PlayerNoClip::tick();
 }
 
 inline void TickSpeed::hook(void *baseAddress, funchook_t *funchook) {

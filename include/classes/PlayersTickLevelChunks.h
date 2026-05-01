@@ -1,5 +1,5 @@
 #pragma once
-#include "Utils.h"
+#include "../Utils.h"
 
 void (*_determineLevelChunksToTick)(void *actor, void *blockSource, void *loadedChunksComponent,
                                     void *chunksToTickVector, void *chunksToTickBlockEntitiesVector, void *currentTick);
@@ -38,6 +38,7 @@ void tickLevelChunksAroundActorHook(void *actor, void *blockSource, void *loaded
     int64_t actorUniqueID = Utils::getUniqueIDFromActorPtr(actor);
     if (!PlayersTickLevelChunks::shouldBeLoadingChunks(actorUniqueID))
         reinterpret_cast<std::vector<void *> *>(chunksToTickVector)->clear();
+    NativePlayerCache::cache(actorUniqueID, actor);
 }
 
 inline void PlayersTickLevelChunks::hook(void *baseAddress, funchook_t *funchook) {

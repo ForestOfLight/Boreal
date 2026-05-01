@@ -13,13 +13,14 @@
 
 #include "lib/CanopyExtension.h"
 #include "hook.h"
-#include "TickCommandExecutor.h"
-#include "FlyspeedCommandExecutor.h"
-#include "ForceOpenCommandExecutor.h"
-#include "LoadNearbyChunksCommandExecutor.h"
-#include "PistonPushLimitCommandExecutor.h"
+#include "commands/TickCommandExecutor.h"
+#include "commands/FlyspeedCommandExecutor.h"
+#include "commands/ForceOpenCommandExecutor.h"
+#include "commands/LoadNearbyChunksCommandExecutor.h"
+#include "commands/PistonPushLimitCommandExecutor.h"
+#include "commands/NoClipCommandExecutor.h"
 
-#include "PlayerQuitListener.h"
+#include "event_listeners/PlayerQuitListener.h"
 
 class Boreal : public endstone::Plugin {
 public:
@@ -52,6 +53,12 @@ public:
         ForceOpenContainers::logger = &getLogger();
         if (auto *command = getCommand("forceopen")) {
             command->setExecutor(std::make_unique<ForceOpenCommandExecutor>());
+        }
+
+        PlayerNoClip::server = &getServer();
+        PlayerNoClip::logger = &getLogger();
+        if (auto *command = getCommand("noclip")) {
+            command->setExecutor(std::make_unique<NoClipCommandExecutor>());
         }
 
         playerQuitListener = std::make_unique<PlayerQuitListener>(*this);

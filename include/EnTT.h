@@ -45,6 +45,10 @@ struct ActorUniqueIDComponent : IEntityComponent {
     int64_t mActorUniqueID;
 };
 
+struct AbilitiesComponent : IEntityComponent {
+    char _data[1];
+};
+
 struct EntityRegistry : std::enable_shared_from_this<EntityRegistry> {
     std::string name;
     entt::basic_registry<EntityId> registry;

@@ -1,5 +1,5 @@
 #pragma once
-#include "Utils.h"
+#include "../Utils.h"
 
 bool (*_canOpenThis)(void *chestBlockActor, void *blockSource);
 

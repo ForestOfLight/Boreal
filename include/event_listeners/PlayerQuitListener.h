@@ -2,6 +2,7 @@
 
 #include <endstone/endstone.hpp>
 #include <endstone/event/player/player_quit_event.h>
+#include "../classes/PlayerNoClip.h"
 
 class PlayerQuitListener {
 public:
@@ -9,6 +10,8 @@ public:
 
     void onPlayerQuit(endstone::PlayerQuitEvent &event) {
         TickSpeed::onPlayerQuit(event);
+        NativePlayerCache::remove(event.getPlayer().getId());
+        PlayerNoClip::clearState(event.getPlayer().getId());
     }
 
 private:

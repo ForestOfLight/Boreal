@@ -3,7 +3,7 @@
 #include <endstone/command/command_executor.h>
 #include <string>
 
-#include "PistonPushLimit.h"
+#include "../classes/PistonPushLimit.h"
 
 class PistonPushLimitCommandExecutor : public endstone::CommandExecutor {
 public:
