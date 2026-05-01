@@ -2,10 +2,12 @@
 
 #include <funchook.h>
 
-#include "ForceOpenContainers.h"
-#include "Tick.h"
-#include "PlayersTickLevelChunks.h"
-#include "PistonPushLimit.h"
+#include "classes/NativePlayerCache.h"
+#include "classes/PlayerNoClip.h"
+#include "classes/ForceOpenContainers.h"
+#include "classes/Tick.h"
+#include "classes/PlayersTickLevelChunks.h"
+#include "classes/PistonPushLimit.h"
 
 #if defined(__GNUC__) 
     void *getAddr(){
@@ -32,34 +34,18 @@
 	#include <windows.h>
 	#include <Psapi.h>
 
-	   void* getBaseAddress(){
-	       // Get the current process ID
-	       DWORD currentProcessId = GetCurrentProcessId();
-
-	       // Get a handle to the current process
-	       HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, currentProcessId);
-
-	       // Get the base address of the DLL
+	   static MODULEINFO getModuleInfo() {
 	       HMODULE hModule = NULL;
 	       GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCTSTR)GetModuleHandle(NULL), &hModule);
-
-	       // Get the executable path
-	       TCHAR szPath[MAX_PATH];
-	       GetModuleFileName(hModule, szPath, MAX_PATH);
-
-	       // Get the process image file name
-	       char szProcessPath[MAX_PATH];
-	       GetProcAddress(hModule, szProcessPath);
-
-	       // Get the module information
-	       MODULEINFO mi;
+	       HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+	       MODULEINFO mi{};
 	       GetModuleInformation(hProcess, hModule, &mi, sizeof(mi));
-
-	       // Close the process handle
 	       CloseHandle(hProcess);
+	       return mi;
+	   }
 
-	       return mi.lpBaseOfDll;
-
+	   void* getBaseAddress(){
+	       return getModuleInfo().lpBaseOfDll;
 	   }
 
 #endif
@@ -75,6 +61,7 @@ int install_hooks(void *baseAddress)
     PlayersTickLevelChunks::hook(baseAddress, funchook);
     PistonPushLimit::install(baseAddress);
     ForceOpenContainers::hook(baseAddress, funchook);
+    PlayerNoClip::install(baseAddress);
 
     /* Install hooks.
 	 * The first 5-byte code of tick() and recv() are changed respectively.

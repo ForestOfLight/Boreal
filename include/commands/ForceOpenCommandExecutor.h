@@ -2,7 +2,7 @@
 
 #include <endstone/command/command_executor.h>
 #include <string>
-#include "ForceOpenContainers.h"
+#include "../classes/ForceOpenContainers.h"
 
 class ForceOpenCommandExecutor : public endstone::CommandExecutor {
 public:

@@ -2,7 +2,7 @@
 
 #include <endstone/command/command_executor.h>
 #include <string>
-#include "PlayersTickLevelChunks.h"
+#include "../classes/PlayersTickLevelChunks.h"
 
 class LoadNearbyChunksCommandExecutor : public endstone::CommandExecutor {
 public:

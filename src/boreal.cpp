@@ -47,6 +47,11 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.3", /*main_class=*/Boreal)
         .usages("/forceopen <enable: bool>")
         .permissions("boreal.command.op");
 
+    command("noclip")
+        .description("Enables/disables noclip for the player")
+        .usages("/noclip <enable|disable>")
+        .permissions("boreal.command.op");
+
     permission("boreal.command")
         .description("Allow users to use all commands provided by this plugin")
         .children("boreal.command.op", true);

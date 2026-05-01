@@ -2,7 +2,7 @@
 
 #include <endstone/command/command_executor.h>
 #include <string>
-#include "Tick.h"
+#include "../classes/Tick.h"
 
 class TickCommandExecutor : public endstone::CommandExecutor {
 public:

@@ -1,6 +1,6 @@
 #pragma once
-#include "MemoryPatch.h"
-#include "PatternScanner.h"
+#include "../MemoryPatch.h"
+#include "../PatternScanner.h"
 #include <vector>
 #include <cstdint>
 
