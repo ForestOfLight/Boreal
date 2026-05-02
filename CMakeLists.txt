@@ -5,11 +5,13 @@ project(boreal CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(ENDSTONE_VERSION 0.11.3)
+
 include(FetchContent)
 FetchContent_Declare(
         endstone
         GIT_REPOSITORY https://github.com/EndstoneMC/endstone.git
-        GIT_TAG v0.11.3
+        GIT_TAG        v${ENDSTONE_VERSION}
 )
 FetchContent_MakeAvailable(endstone)
 

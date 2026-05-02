@@ -34,3 +34,4 @@ ZERO_CHECK.vcxproj
 ZERO_CHECK.vcxproj.filters
 cmake-build-debug/build.ninja
 .claude/
+test_server/
