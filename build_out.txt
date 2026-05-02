@@ -1,0 +1,16 @@
+MSBuild version 17.14.14+a129329f1 for .NET Framework
+
+  fmt.vcxproj -> C:\Users\bccas\CLionProjects\Boreal\cmake-build-release\_deps\fmt-build\Release\fmt.lib
+  boreal.cpp
+  ForceOpenContainers.cpp
+  NativePlayerCache.cpp
+  PistonPushLimit.cpp
+  PlayerAbilities.cpp
+  PlayerNoClip.cpp
+  PlayersTickLevelChunks.cpp
+  Tick.cpp
+  Generating Code...
+     Creating library C:/Users/bccas/CLionProjects/Boreal/cmake-build-release/Release/boreal.lib and object C:/Users/bccas/CLionProjects/Boreal/cmake-build-release/Release/boreal.exp
+  boreal.vcxproj -> C:\Users\bccas\CLionProjects\Boreal\cmake-build-release\Release\endstone_boreal.dll
+  Building Custom Rule C:/Users/bccas/CLionProjects/Boreal/CMakeLists.txt
+Exit code: 0 

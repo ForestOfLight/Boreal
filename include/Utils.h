@@ -1,6 +1,8 @@
 #pragma once
 
 #include <EnTT.h>
+#include <endstone/player.h>
+#include <endstone/server.h>
 
 class Utils {
 public:

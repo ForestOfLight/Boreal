@@ -49,7 +49,7 @@ ENDSTONE_PLUGIN(/*name=*/"boreal", /*version=*/"0.1.3", /*main_class=*/Boreal)
 
     command("noclip")
         .description("Enables/disables noclip for the player")
-        .usages("/noclip <enable|disable>")
+        .usages("/noclip <enable: bool>")
         .permissions("boreal.command.op");
 
     permission("boreal.command")

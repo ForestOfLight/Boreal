@@ -13,6 +13,7 @@
 
 #include "lib/CanopyExtension.h"
 #include "hook.h"
+#include "classes/PlayerAbilities.h"
 #include "commands/TickCommandExecutor.h"
 #include "commands/FlyspeedCommandExecutor.h"
 #include "commands/ForceOpenCommandExecutor.h"
@@ -20,7 +21,7 @@
 #include "commands/PistonPushLimitCommandExecutor.h"
 #include "commands/NoClipCommandExecutor.h"
 
-#include "event_listeners/PlayerQuitListener.h"
+#include "events/PlayerQuitListener.h"
 
 class Boreal : public endstone::Plugin {
 public:
@@ -55,8 +56,9 @@ public:
             command->setExecutor(std::make_unique<ForceOpenCommandExecutor>());
         }
 
+        PlayerAbilities::logger = &getLogger();
+
         PlayerNoClip::server = &getServer();
-        PlayerNoClip::logger = &getLogger();
         if (auto *command = getCommand("noclip")) {
             command->setExecutor(std::make_unique<NoClipCommandExecutor>());
         }

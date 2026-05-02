@@ -3,11 +3,11 @@
 #include <funchook.h>
 
 #include "classes/NativePlayerCache.h"
-#include "classes/PlayerNoClip.h"
 #include "classes/ForceOpenContainers.h"
 #include "classes/Tick.h"
 #include "classes/PlayersTickLevelChunks.h"
 #include "classes/PistonPushLimit.h"
+#include "classes/PlayerAbilities.h"
 
 #if defined(__GNUC__) 
     void *getAddr(){
@@ -61,7 +61,7 @@ int install_hooks(void *baseAddress)
     PlayersTickLevelChunks::hook(baseAddress, funchook);
     PistonPushLimit::install(baseAddress);
     ForceOpenContainers::hook(baseAddress, funchook);
-    PlayerNoClip::install(baseAddress);
+    PlayerAbilities::install(baseAddress);
 
     /* Install hooks.
 	 * The first 5-byte code of tick() and recv() are changed respectively.

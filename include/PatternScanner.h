@@ -1,5 +1,9 @@
 #pragma once
 
+#include <cstdint>
+#include <cstddef>
+#include <vector>
+
 #ifdef _WIN32
   #ifndef NOMINMAX
     #define NOMINMAX
