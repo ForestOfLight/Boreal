@@ -33,7 +33,9 @@ void PlayerNoClip::tick() {
 
 bool PlayerNoClip::shouldNoClip(const endstone::Player *player) {
     const int64_t playerId = player->getId();
-    return isEnabled(playerId) && player->getGameMode() == endstone::GameMode::Creative && player->isFlying();
+    const auto gameMode = player->getGameMode();
+    return gameMode == endstone::GameMode::Spectator
+        || (isEnabled(playerId) && gameMode == endstone::GameMode::Creative && player->isFlying());
 }
 
 bool PlayerNoClip::setNoClip(endstone::Player *player, const bool shouldNoClip) {
